@@ -7,11 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
         mToolbar = mViewPager.getToolbar();
 
-        if (mToolbar!=null){
+        if (mToolbar != null) {
             setSupportActionBar(mToolbar);
 
             final ActionBar actionBar = getSupportActionBar();
@@ -107,28 +109,28 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         showHome();
-
                         break;
+
                     case R.id.nav_all_schedule:
                         showAllSche(getResources().getText(R.string.all_schedule));
-
                         break;
+
                     case R.id.nav_my_schedule:
                         showMySche(getResources().getText(R.string.my_schedule));
-
                         break;
+
                     case R.id.nav_find_friends:
                         showFindFriends(getResources().getText(R.string.find_friends));
-
                         break;
+
                     case R.id.nav_deview_story:
                         showDeviewStory(getResources().getText(R.string.deview_story));
-
                         break;
+
                     case R.id.nav_setting:
                         showSetting();
-
                         break;
+
                 }
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
@@ -197,6 +199,23 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
         startActivity(new Intent(MainActivity.this, SettingActivity.class));
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
