@@ -26,10 +26,6 @@
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_settings_applications_black_24dp"
             android:title="@string/setting" />
-        <item
-            android:id="@+id/nav_aboutus"
-            android:icon="@drawable/ic_settings_applications_black_24dp"
-            android:title="@string/aboutus" />
     </group>
 
 </menu>

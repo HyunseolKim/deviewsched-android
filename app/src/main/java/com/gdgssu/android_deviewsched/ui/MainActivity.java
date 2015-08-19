@@ -7,13 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,14 +19,11 @@ import android.widget.TextView;
 import com.facebook.appevents.AppEventsLogger;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.example.RecyclerViewFragment;
-import com.gdgssu.android_deviewsched.ui.aboutus.AboutusFragment;
 import com.gdgssu.android_deviewsched.ui.sche.ScheFragment;
 import com.gdgssu.android_deviewsched.ui.deviewstory.DeviewStoryFragment;
 import com.gdgssu.android_deviewsched.ui.findfriends.FindFriendsFragment;
 import com.gdgssu.android_deviewsched.ui.setting.SettingActivity;
 import com.github.florent37.materialviewpager.MaterialViewPager;
-
-import fr.castorflex.android.flipimageview.library.FlipImageView;
 
 public class MainActivity extends AppCompatActivity implements DeviewFragment.OnFragmentInteractionListener {
 
@@ -134,10 +129,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
                         showSetting();
 
                         break;
-                    case R.id.nav_aboutus:
-                        showAboutus(getResources().getText(R.string.aboutus));
-
-                        break;
                 }
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
@@ -206,33 +197,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
         startActivity(new Intent(MainActivity.this, SettingActivity.class));
 
-    }
-
-    public void showAboutus(CharSequence title) {
-
-        mDrawerLayout.closeDrawers();
-
-        Fragment aboutusFragment = AboutusFragment.newInstance(title);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_container, aboutusFragment);
-        fragmentTransaction.addToBackStack(null).commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
