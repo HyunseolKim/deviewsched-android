@@ -47,7 +47,6 @@
             android:layout_height="wrap_content"
             android:text="댓글내용"
             android:textSize="10sp"
-            android:layout_marginTop="4dp"
             android:textColor="@android:color/black"/>
 
     </LinearLayout>
