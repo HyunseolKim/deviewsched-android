@@ -40,6 +40,7 @@ public class SchePagerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
 
         if (getArguments() != null){
@@ -56,13 +57,6 @@ public class SchePagerFragment extends Fragment {
         initScheListView(rootView);
 
         return rootView;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_all_sche, menu);
-
     }
 
     private void initScheListView(View rootView) {
@@ -85,6 +79,13 @@ public class SchePagerFragment extends Fragment {
             }
         });
         listview.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_all_sche, menu);
 
     }
 

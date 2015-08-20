@@ -7,8 +7,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.ui.DeviewFragment;
@@ -38,6 +42,7 @@ public class ScheFragment extends DeviewFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             this.title = getArguments().getString(KEY_TITLE);
         }
@@ -79,7 +84,7 @@ public class ScheFragment extends DeviewFragment {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).showHome();
+                ((MainActivity) getActivity()).showHome();
             }
         });
     }
