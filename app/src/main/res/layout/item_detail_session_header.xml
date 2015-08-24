@@ -41,13 +41,14 @@
 
                     <TextView
                         android:id="@+id/item_detail_session_header_title"
-                        android:layout_width="240dp"
+                        android:layout_width="252dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
-                        android:lines="2"
-                        android:textStyle="bold" />
+                        android:maxLines="2"
+                        android:textStyle="bold"
+                        android:ellipsize="end"/>
 
                     <TextView
                         android:id="@+id/item_detail_session_header_timelocation"

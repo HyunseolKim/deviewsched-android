@@ -1,13 +1,11 @@
 package com.gdgssu.android_deviewsched.ui.sche;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,20 +17,8 @@ import com.gdgssu.android_deviewsched.util.GlideCircleTransform;
 
 import java.util.ArrayList;
 
-/**
- * Created by flashgugu on 15. 7. 29.
- */
 public class SchePagerAdapter extends BaseAdapter {
 
-    /**
-     * Todo:Keynote시간까지 포함하여 9:30 ~ 9:50을 넣어야 함. 2014년 기준으로 하루에 한트랙에 8개의 세션이 존재함.
-     */
-
-    /**
-     * 이 코드에서 Position과 관련한 부분은 Deview2015 스케줄이 나오고 꼭 다시한번 확인해보아야할 부분이다.
-     */
-
-    private static final int TYPE_COUNT = 2;
     private static final String[] SESSION_TIME =
             {
                     "09:20~09:40", "10:00~10:50", "11:00~11:50", "12:00~12:50", "12:50 ~ 14:10", "14:10 ~ 15:00", "15:10 ~ 16:00", "16:10 ~ 17:00", "17:15 ~ 18:30"
@@ -101,7 +87,7 @@ public class SchePagerAdapter extends BaseAdapter {
     public void setOneSpeakerInfo(SessionViewHolder sessionHolder, Session sessionItem) {
         sessionHolder.speakerImgSecond.setVisibility(View.GONE);
 
-        Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
+        Glide.with(mContext)
                 .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .override(54, 54) //임의로 결정한 크기임.
@@ -113,13 +99,13 @@ public class SchePagerAdapter extends BaseAdapter {
     private void setTwoSpeakerInfo(SessionViewHolder sessionHolder, Session sessionItem) {
         sessionHolder.speakerImgSecond.setVisibility(View.VISIBLE);
 
-        Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
+        Glide.with(mContext)
                 .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .override(54, 54) //임의로 결정한 크기임.
                 .into(sessionHolder.speakerImg);
 
-        Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
+        Glide.with(mContext)
                 .load(sessionItem.speakers.get(1).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .override(54, 54) //임의로 결정한 크기임.

@@ -17,9 +17,6 @@ import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapte
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by florentchampigny on 24/04/15.
- */
 public class RecyclerViewFragment extends Fragment {
 
     private RecyclerView mRecyclerView;

@@ -73,7 +73,6 @@ public class SchePagerFragment extends Fragment {
         final ListView listview = (ListView) rootView.findViewById(R.id.fragment_sche_pager_list);
         final SchePagerAdapter adapter = new SchePagerAdapter(mTrackData, DeviewSchedApplication.GLOBAL_CONTEXT);
 
-        //임시로 아이템을 누르면 테스트중인 액티비티가 뜨게 만들어놓음
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

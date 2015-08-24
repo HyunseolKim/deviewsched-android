@@ -51,10 +51,6 @@ public class DetailSessionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_session);
 
-        /**
-         * Todo 이전 세션리스트에서 Intent를 이용해 데이터를 가져와야한다.
-         */
-
         Intent intent = getIntent();
         sessionInfo = (DetailSessionInfo)intent.getSerializableExtra("DetailSessionInfo");
 

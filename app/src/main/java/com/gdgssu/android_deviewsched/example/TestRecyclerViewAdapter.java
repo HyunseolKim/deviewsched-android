@@ -10,9 +10,6 @@ import com.gdgssu.android_deviewsched.R;
 
 import java.util.List;
 
-/**
- * Created by florentchampigny on 24/04/15.
- */
 public class TestRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<Object> contents;

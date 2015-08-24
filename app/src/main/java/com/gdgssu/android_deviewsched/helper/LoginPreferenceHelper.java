@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**
- * Created by flashgugu on 15. 7. 28.
- */
 public class LoginPreferenceHelper {
 
     private final String PREF_NAME = "com.gdgssu.loginpref";
