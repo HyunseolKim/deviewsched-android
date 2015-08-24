@@ -1,15 +1,12 @@
 package com.gdgssu.android_deviewsched.ui.sche;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsoluteLayout;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,27 +32,21 @@ public class SchePagerAdapter extends BaseAdapter {
      * 이 코드에서 Position과 관련한 부분은 Deview2015 스케줄이 나오고 꼭 다시한번 확인해보아야할 부분이다.
      */
 
-    private String[] sessionTimes = new String[]{
-            "10:00~10:45",
-            "11:00~11:45",
-            "12:00~12:45",
-            "13:00~13:45",
-            "14:00~14:45",
-            "15:00~15:45",
-            "16:00~16:45",
-            "10:00~10:45",
-            "11:00~11:45",
-            "12:00~12:45",
-            "13:00~13:45",
-            "14:00~14:45",
-            "15:00~15:45",
-            "16:00~16:45"
-    };
+    private static final int TYPE_DAY = 0;
+    private static final int TYPE_SESSION = 1;
+    private static final int TYPE_COUNT = 2;
+
     private LayoutInflater mInflater;
     private ArrayList<Session> sessionItems;
     private Context mContext;
 
     public SchePagerAdapter(Track track, Context context) {
+
+        Session day1Item = new Session();
+        Session day2Item = new Session();
+
+        track.sessions.add(0, day1Item);
+        track.sessions.add(8, day2Item);
 
         this.sessionItems = track.sessions;
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -64,7 +55,21 @@ public class SchePagerAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return sessionItems.size() + 2;
+        return sessionItems.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if ((position==0)||(position==8)) {
+            return TYPE_DAY;
+        } else {
+            return TYPE_SESSION;
+        }
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return TYPE_COUNT;
     }
 
     @Override
@@ -80,38 +85,51 @@ public class SchePagerAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        DayViewHolder dayHolder;
         SessionViewHolder sessionHolder;
 
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_session_sche_list, parent, false);
+        switch (getItemViewType(position)){
+            case TYPE_DAY:
 
-            sessionHolder = new SessionViewHolder();
-            sessionHolder.sessionTime = (TextView) convertView.findViewById(R.id.item_sche_list_time);
-            sessionHolder.speakerImg = (ImageView) convertView.findViewById(R.id.item_sche_list_speaker_img);
-            sessionHolder.speakerImgSecond = (ImageView) convertView.findViewById(R.id.item_sche_list_speaker_img_second);
-            sessionHolder.speakerName = (TextView) convertView.findViewById(R.id.item_sche_list_speaker_name);
-            sessionHolder.sessionName = (TextView) convertView.findViewById(R.id.item_sche_list_session_title);
+                if (convertView==null){
+                    convertView = mInflater.inflate(R.layout.item_session_sche_day, parent, false);
 
-            sessionHolder.dayView = (RelativeLayout) convertView.findViewById(R.id.item_session_sche_list_day);
-            sessionHolder.dayText = (TextView) convertView.findViewById(R.id.item_day_sche_list_day);
-            sessionHolder.dateText = (TextView) convertView.findViewById(R.id.item_date_sche_list_day);
+                    dayHolder = new DayViewHolder();
 
-            convertView.setTag(sessionHolder);
+                    dayHolder.dayText = (TextView) convertView.findViewById(R.id.item_session_sche_day_day);
+                    dayHolder.dateText = (TextView) convertView.findViewById(R.id.item_session_sche_day_date);
 
-        } else {
-            sessionHolder = (SessionViewHolder) convertView.getTag();
-        }
+                    convertView.setTag(dayHolder);
 
-        if (position >= 0 && position <= 7) {
-            if (position == 0) {
-                sessionHolder.dayView.setVisibility(View.VISIBLE);
-                sessionHolder.dayText.setText("Day 1");
-                sessionHolder.dateText.setText("9.14");
-            } else {
-                Session sessionItem = sessionItems.get(position - 1);
-                sessionHolder.dayView.setVisibility(View.INVISIBLE);
-                sessionHolder.sessionTime.setText(sessionTimes[position - 1]);
+                }else{
+                    dayHolder = (DayViewHolder) convertView.getTag();
+                }
+
+                dayHolder.dayText.setText("Day 1");
+                dayHolder.dateText.setText("9.14");
+
+                break;
+
+            case TYPE_SESSION:
+
+                if (convertView==null){
+                    convertView = mInflater.inflate(R.layout.item_session_sche_sessioninfo, parent, false);
+
+                    sessionHolder = new SessionViewHolder();
+
+                    sessionHolder.speakerImg = (ImageView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_img);
+                    sessionHolder.speakerImgSecond = (ImageView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_img_second);
+                    sessionHolder.speakerName = (TextView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_name);
+                    sessionHolder.sessionName = (TextView) convertView.findViewById(R.id.item_session_sche_sessioninfo_session_title);
+
+                    convertView.setTag(sessionHolder);
+
+                }else{
+                    sessionHolder = (SessionViewHolder) convertView.getTag();
+                }
+
+                Session sessionItem = sessionItems.get(position);
+                Log.d("Position", position+"");
 
                 if (sessionItem.speakers.size() > 1) {
                     setTwoSpeakerInfo(sessionHolder, sessionItem);
@@ -120,25 +138,8 @@ public class SchePagerAdapter extends BaseAdapter {
                 }
 
                 sessionHolder.sessionName.setText(sessionItem.session_title);
-            }
-        } else if (position >= 8) {
-            if (position == 8) {
-                sessionHolder.dayView.setVisibility(View.VISIBLE);
-                sessionHolder.dayText.setText("Day 2");
-                sessionHolder.dateText.setText("9.15");
-            } else {
-                Session sessionItem = sessionItems.get(position - 2);
-                sessionHolder.dayView.setVisibility(View.INVISIBLE);
-                sessionHolder.sessionTime.setText(sessionTimes[position - 2]);
 
-                if (sessionItem.speakers.size() > 1) {
-                    setTwoSpeakerInfo(sessionHolder, sessionItem);
-                } else {
-                    setOneSpeakerInfo(sessionHolder, sessionItem);
-                }
-
-                sessionHolder.sessionName.setText(sessionItem.session_title);
-            }
+                break;
         }
 
         return convertView;
@@ -171,7 +172,7 @@ public class SchePagerAdapter extends BaseAdapter {
                 .override(54, 54) //임의로 결정한 크기임.
                 .into(sessionHolder.speakerImgSecond);
 
-        sessionHolder.speakerName.setText(sessionItem.speakers.get(0).name+"/"+sessionItem.speakers.get(1).name);
+        sessionHolder.speakerName.setText(sessionItem.speakers.get(0).name + "/" + sessionItem.speakers.get(1).name);
     }
 
     public static class SessionViewHolder {
@@ -181,8 +182,10 @@ public class SchePagerAdapter extends BaseAdapter {
         public ImageView speakerImgSecond;
         public TextView speakerName;
         public TextView sessionName;
+    }
 
-        public RelativeLayout dayView;
+    public static class DayViewHolder {
+
         public TextView dayText;
         public TextView dateText;
 

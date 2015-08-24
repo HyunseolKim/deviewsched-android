@@ -22,7 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        app:tabIndicatorColor="@color/default_white_background" />
+        app:tabTextColor="@android:color/white"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabSelectedTextColor="@color/colorAccent"/>
 
     <FrameLayout
         android:id="@+id/fl_fragment_container"

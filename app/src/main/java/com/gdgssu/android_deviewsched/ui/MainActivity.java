@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -26,6 +27,7 @@ import com.gdgssu.android_deviewsched.ui.deviewstory.DeviewStoryFragment;
 import com.gdgssu.android_deviewsched.ui.findfriends.FindFriendsFragment;
 import com.gdgssu.android_deviewsched.ui.setting.SettingActivity;
 import com.github.florent37.materialviewpager.MaterialViewPager;
+import com.github.florent37.materialviewpager.header.HeaderDesign;
 
 public class MainActivity extends AppCompatActivity implements DeviewFragment.OnFragmentInteractionListener {
 
@@ -83,9 +85,54 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
             @Override
             public int getCount() {
-                return 1;
+                return 4;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                switch (position % 4) {
+                    case 0:
+                        return "Selection";
+                    case 1:
+                        return "Actualités";
+                    case 2:
+                        return "Professionnel";
+                    case 3:
+                        return "Divertissement";
+                }
+                return "";            }
+        });
+
+        mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
+            @Override
+            public HeaderDesign getHeaderDesign(int page) {
+                switch (page) {
+                    case 0:
+                        return HeaderDesign.fromColorResAndDrawable(
+                                android.R.color.black,
+                                ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall1));
+                    case 1:
+                        return HeaderDesign.fromColorResAndDrawable(
+                                android.R.color.white,
+                                ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall2));
+                    case 2:
+                        return HeaderDesign.fromColorResAndDrawable(
+                                android.R.color.black,
+                                ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall3));
+                    case 3:
+                        return HeaderDesign.fromColorResAndDrawable(
+                                android.R.color.white,
+                                ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall4));
+                }
+
+                //execute others actions if needed (ex : modify your header logo)
+
+                return null;
             }
         });
+
+        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
+        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
     }
 

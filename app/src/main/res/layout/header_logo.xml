@@ -3,9 +3,8 @@
     android:id="@+id/header_logo_image"
     android:layout_width="200dp"
     android:layout_height="@dimen/materialviewpager_logoHeight"
-    android:fitsSystemWindows="true"
+    android:layout_centerInParent="true"
     android:adjustViewBounds="true"
-    android:layout_centerHorizontal="true"
-    android:src="@drawable/deview_logo">
+    android:fitsSystemWindows="true"
+    android:src="@drawable/deviewlogo_white"></ImageView>
 
-</ImageView>
