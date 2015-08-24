@@ -36,10 +36,15 @@ public class DetailSessionActivity extends AppCompatActivity {
 
     private ListView listView;
 
-    private String dummyText = "대통령의 임기연장 또는 중임변경을 위한 헌법개정은 그 헌법개정 제안 당시의 대통령에 대하여는 효력이 없다. 대통령이 궐위된 때 또는 대통령 당선자가 사망하거나 판결 기타의 사유로 그 자격을 상실한 때에는 60일 이내에 후임자를 선거한다. 체포·구속·압수 또는 수색을 할 때에는 적법한 절차에 따라 검사의 신청에 의하여 법관이 발부한 영장을 제시하여야 한다. 다만, 현행범인인 경우와 장기 3년 이상의 형에 해당하는 죄를 범하고 도피 또는 증거인멸의 염려가 있을 때에는 사후에 영장을 청구할 수 있다.";
-
     private DetailSessionInfo sessionInfo;
     private Speakers speakers;
+
+    private TextView sessionTitle;
+    private TextView sessionDesc;
+    private ImageView speakerPicture;
+    private TextView speakerName;
+    private TextView speakerOrg;
+    private TextView speakerIntro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,12 @@ public class DetailSessionActivity extends AppCompatActivity {
         Intent intent = getIntent();
         sessionInfo = (DetailSessionInfo)intent.getSerializableExtra("DetailSessionInfo");
 
+        arrayList.add("댓글1");
+        arrayList.add("댓글2");
+        arrayList.add("댓글3");
+
+        initView();
+
         volleyer(DeviewSchedApplication.deviewRequestQueue)
                 .get(DeviewSchedApplication.HOST_URL + "2015/"+sessionInfo.id+"/speakers")
                 .withTargetClass(Speakers.class)
@@ -61,11 +72,7 @@ public class DetailSessionActivity extends AppCompatActivity {
                     public void onResponse(Speakers item) {
                         speakers = item;
 
-                        arrayList.add("댓글1");
-                        arrayList.add("댓글2");
-                        arrayList.add("댓글3");
-
-                        initView();
+                        setData();
                     }
                 })
                 .withErrorListener(new Response.ErrorListener() {
@@ -74,6 +81,23 @@ public class DetailSessionActivity extends AppCompatActivity {
                     }
                 })
                 .execute();
+
+
+    }
+
+    public void setData() {
+        sessionTitle.setText(sessionInfo.title);
+        sessionDesc.setText(sessionInfo.description);
+
+        Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
+                .load(speakers.speakers.get(0).picture)
+                .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
+                .override(64, 64) //임의로 결정한 크기임.
+                .into(speakerPicture);
+
+        speakerName.setText(speakers.speakers.get(0).name);
+        speakerOrg.setText(speakers.speakers.get(0).organization);
+        speakerIntro.setText(speakers.speakers.get(0).introduction);
     }
 
     private void initView() {
@@ -125,30 +149,12 @@ public class DetailSessionActivity extends AppCompatActivity {
             }
         });
 
-        TextView sessionTitle = (TextView)headerView.findViewById(R.id.item_detail_session_header_title);
-        sessionTitle.setText(sessionInfo.title);
-
-        TextView sessionDesc = (TextView)headerView.findViewById(R.id.item_detail_session_header_sessioninfo);
-        sessionDesc.setText(sessionInfo.description);
-
-        ImageView speakerPicture = (ImageView)headerView.findViewById(R.id.item_detail_session_header_speaker_img);
-        Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
-                .load(speakers.speakers.get(0).picture)
-                .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
-                .override(64, 64) //임의로 결정한 크기임.
-                .into(speakerPicture);
-
-        TextView speakerName = (TextView)headerView.findViewById(R.id.item_detail_session_header_name);
-        speakerName.setText(speakers.speakers.get(0).name);
-
-        TextView speakerOrg = (TextView)headerView.findViewById(R.id.item_detail_session_header_company);
-        speakerOrg.setText(speakers.speakers.get(0).organization);
-
-        TextView speakerIntro = (TextView)headerView.findViewById(R.id.item_detail_session_header_speakerinfo);
-        speakerIntro.setText(speakers.speakers.get(0).introduction);
-        /**
-         * 이곳에 서버로부터 가져온 각 세션에대한 정보를 뷰에 적용하는 코드를 짜면 된다.
-         */
+        sessionTitle = (TextView)headerView.findViewById(R.id.item_detail_session_header_title);
+        sessionDesc = (TextView)headerView.findViewById(R.id.item_detail_session_header_sessioninfo);
+        speakerPicture = (ImageView)headerView.findViewById(R.id.item_detail_session_header_speaker_img);
+        speakerName = (TextView)headerView.findViewById(R.id.item_detail_session_header_name);
+        speakerOrg = (TextView)headerView.findViewById(R.id.item_detail_session_header_company);
+        speakerIntro = (TextView)headerView.findViewById(R.id.item_detail_session_header_speakerinfo);
 
         listView.addHeaderView(headerView);
     }
