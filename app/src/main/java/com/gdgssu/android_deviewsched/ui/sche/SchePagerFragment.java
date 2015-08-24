@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
+import com.gdgssu.android_deviewsched.model.DetailSessionInfo;
 import com.gdgssu.android_deviewsched.model.Session;
 import com.gdgssu.android_deviewsched.model.Track;
 import com.gdgssu.android_deviewsched.ui.detailsession.DetailSessionActivity;
@@ -79,7 +80,27 @@ public class SchePagerFragment extends Fragment {
                 if (sessionPickMode) {
                     //  listview.getChildAt(position).setBackgroundColor(getActivity().getColor(android.R.color.holo_blue_light));
                 } else {
-                    getActivity().startActivity(new Intent(getActivity(), DetailSessionActivity.class));
+
+                    volleyer(DeviewSchedApplication.deviewRequestQueue)
+                            .get(DeviewSchedApplication.HOST_URL + "2015/"+mTrackData.sessions.get(position).id)
+                            .withTargetClass(DetailSessionInfo.class)
+                            .withListener(new Response.Listener<DetailSessionInfo>() {
+                                @Override
+                                public void onResponse(DetailSessionInfo item) {
+
+                                    Intent intent = new Intent(new Intent(getActivity(), DetailSessionActivity.class));
+                                    intent.putExtra("DetailSessionInfo", item);
+                                    getActivity().startActivity(intent);
+
+                                }
+                            })
+                            .withErrorListener(new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.d(TAG, error.toString());
+                                }
+                            })
+                            .execute();
                 }
             }
         });
