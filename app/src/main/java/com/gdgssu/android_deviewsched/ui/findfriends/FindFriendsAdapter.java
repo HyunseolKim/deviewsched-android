@@ -79,6 +79,8 @@ public class FindFriendsAdapter extends BaseAdapter {
             });
 
         }
+        ImageView item_image = (ImageView)convertView.findViewById(R.id.item_image);
+
         TextView item_text = (TextView)convertView.findViewById(R.id.item_text);
         item_text.setText(m_List.get(position));
 
