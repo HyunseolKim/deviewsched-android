@@ -8,6 +8,6 @@ import java.io.Serializable;
 public class Speaker implements Serializable {
 
     public String name;
-    public String img;
+    public String picture;
 
 }

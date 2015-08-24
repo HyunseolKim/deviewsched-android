@@ -93,7 +93,7 @@ public class SchePagerAdapter extends BaseAdapter {
             setOneSpeakerInfo(sessionHolder, sessionItem);
         }
 
-        sessionHolder.sessionName.setText(sessionItem.session_title);
+        sessionHolder.sessionName.setText(sessionItem.title);
 
         return convertView;
     }
@@ -102,7 +102,7 @@ public class SchePagerAdapter extends BaseAdapter {
         sessionHolder.speakerImgSecond.setVisibility(View.GONE);
 
         Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
-                .load(sessionItem.speakers.get(0).img)
+                .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .override(54, 54) //임의로 결정한 크기임.
                 .into(sessionHolder.speakerImg);
@@ -114,13 +114,13 @@ public class SchePagerAdapter extends BaseAdapter {
         sessionHolder.speakerImgSecond.setVisibility(View.VISIBLE);
 
         Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
-                .load(sessionItem.speakers.get(0).img)
+                .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .override(54, 54) //임의로 결정한 크기임.
                 .into(sessionHolder.speakerImg);
 
         Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
-                .load(sessionItem.speakers.get(1).img)
+                .load(sessionItem.speakers.get(1).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .override(54, 54) //임의로 결정한 크기임.
                 .into(sessionHolder.speakerImgSecond);

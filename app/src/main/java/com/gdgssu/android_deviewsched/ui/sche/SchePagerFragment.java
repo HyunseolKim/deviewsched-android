@@ -15,10 +15,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
+import com.gdgssu.android_deviewsched.model.AllScheItems;
+import com.gdgssu.android_deviewsched.model.Session;
 import com.gdgssu.android_deviewsched.model.Track;
 import com.gdgssu.android_deviewsched.ui.detailsession.DetailSessionActivity;
+
+import static com.navercorp.volleyextensions.volleyer.Volleyer.volleyer;
 
 public class SchePagerFragment extends Fragment {
 
@@ -64,14 +70,14 @@ public class SchePagerFragment extends Fragment {
 
     private void initScheListView(View rootView) {
         final ListView listview = (ListView) rootView.findViewById(R.id.fragment_sche_pager_list);
-        SchePagerAdapter adapter = new SchePagerAdapter(mTrackData, DeviewSchedApplication.GLOBAL_CONTEXT);
+        final SchePagerAdapter adapter = new SchePagerAdapter(mTrackData, DeviewSchedApplication.GLOBAL_CONTEXT);
 
         //임시로 아이템을 누르면 테스트중인 액티비티가 뜨게 만들어놓음
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (sessionPickMode) {
-                    listview.getChildAt(position).setBackgroundColor(getActivity().getColor(android.R.color.holo_blue_light));
+                    //  listview.getChildAt(position).setBackgroundColor(getActivity().getColor(android.R.color.holo_blue_light));
                 } else {
                     getActivity().startActivity(new Intent(getActivity(), DetailSessionActivity.class));
                 }

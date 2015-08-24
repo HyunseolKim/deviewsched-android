@@ -96,9 +96,6 @@ public class DetailSessionActivity extends AppCompatActivity {
             }
         });
 
-        TextView sessionTarget = (TextView)headerView.findViewById(R.id.item_detail_session_header_sessiontarget);
-        sessionTarget.setText("훌륭한 프로그래머가 되고싶은 모든 프로그래머");
-
         TextView sessionContent = (TextView)headerView.findViewById(R.id.item_detail_session_header_sessioninfo);
         sessionContent.setText(dummyText);
 

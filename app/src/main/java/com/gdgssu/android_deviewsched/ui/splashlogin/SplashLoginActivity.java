@@ -102,7 +102,7 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
     private void getAllScheData() {
 
         volleyer(DeviewSchedApplication.deviewRequestQueue)
-                .get(DeviewSchedApplication.HOST_URL + "mock/allsche.json")
+                .get(DeviewSchedApplication.HOST_URL + "2015/list")
                 .withTargetClass(AllScheItems.class)
                 .withListener(new Response.Listener<AllScheItems>() {
                     @Override

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Session implements Serializable {
 
     public int id;
-    public String session_title;
+    public String title;
     public ArrayList<Speaker> speakers;
 
 }

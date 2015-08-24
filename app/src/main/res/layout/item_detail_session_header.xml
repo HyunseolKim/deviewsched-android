@@ -83,23 +83,6 @@
                     android:text=""
                     android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="강의대상"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/item_detail_session_header_sessiontarget"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="12dp"
-                    android:text="개발을 잘하고 싶은 초보 개발자"
-                    android:textSize="12sp" />
-
             </LinearLayout>
         </RelativeLayout>
 
