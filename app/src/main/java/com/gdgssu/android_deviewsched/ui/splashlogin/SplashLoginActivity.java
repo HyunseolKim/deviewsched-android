@@ -2,6 +2,7 @@ package com.gdgssu.android_deviewsched.ui.splashlogin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -59,18 +60,24 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
 
         callbackManager = CallbackManager.Factory.create();
 
-        if (DeviewSchedApplication.LOGIN_STATE) {
-            getAllScheData();
-            /**
-             * Todo 기 로그인 사용자는 이 부분에서
-             * 서버로 토큰을 보내고 유저의 사진과 이름 정보를 가져와야한다.
-             * 더불어 메인화면에 보여줄 데이터도 가져와야함.
-             */
-            //sendAccessToken(AccessToken.getCurrentAccessToken().getToken());
-            goMainActivity();
-        } else {
-            getAllScheData();
-        }
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (DeviewSchedApplication.LOGIN_STATE) {
+                    getAllScheData();
+                    /**
+                     * Todo 기 로그인 사용자는 이 부분에서
+                     * 서버로 토큰을 보내고 유저의 사진과 이름 정보를 가져와야한다.
+                     * 더불어 메인화면에 보여줄 데이터도 가져와야함.
+                     */
+                    //sendAccessToken(AccessToken.getCurrentAccessToken().getToken());
+                    goMainActivity();
+                } else {
+                    getAllScheData();
+                }
+            }
+        }, 3000);
     }
 
     private void initView() {
@@ -147,8 +154,8 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void sendAccessToken(String accessToken){
-        volleyer().post(DeviewSchedApplication.HOST_URL+"/sendToken")
+    public void sendAccessToken(String accessToken) {
+        volleyer().post(DeviewSchedApplication.HOST_URL + "/sendToken")
                 .addHeader("X-Facebook-Token", accessToken)
                 .withListener(new Response.Listener<String>() {
                     @Override

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -21,14 +22,12 @@ import android.widget.TextView;
 import com.facebook.appevents.AppEventsLogger;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.example.RecyclerViewFragment;
-import com.gdgssu.android_deviewsched.ui.aboutus.AboutusFragment;
 import com.gdgssu.android_deviewsched.ui.sche.ScheFragment;
 import com.gdgssu.android_deviewsched.ui.deviewstory.DeviewStoryFragment;
 import com.gdgssu.android_deviewsched.ui.findfriends.FindFriendsFragment;
 import com.gdgssu.android_deviewsched.ui.setting.SettingActivity;
 import com.github.florent37.materialviewpager.MaterialViewPager;
-
-import fr.castorflex.android.flipimageview.library.FlipImageView;
+import com.github.florent37.materialviewpager.header.HeaderDesign;
 
 public class MainActivity extends AppCompatActivity implements DeviewFragment.OnFragmentInteractionListener {
 
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
         mToolbar = mViewPager.getToolbar();
 
-        if (mToolbar!=null){
+        if (mToolbar != null) {
             setSupportActionBar(mToolbar);
 
             final ActionBar actionBar = getSupportActionBar();
@@ -86,9 +85,54 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
             @Override
             public int getCount() {
-                return 1;
+                return 4;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                switch (position % 4) {
+                    case 0:
+                        return "Selection";
+                    case 1:
+                        return "Actualités";
+                    case 2:
+                        return "Professionnel";
+                    case 3:
+                        return "Divertissement";
+                }
+                return "";            }
+        });
+
+        mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
+            @Override
+            public HeaderDesign getHeaderDesign(int page) {
+                switch (page) {
+                    case 0:
+                        return HeaderDesign.fromColorResAndDrawable(
+                                R.color.colorPrimary,
+                                ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall1));
+                    case 1:
+                        return HeaderDesign.fromColorResAndDrawable(
+                                R.color.colorPrimary,
+                                ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall2));
+                    case 2:
+                        return HeaderDesign.fromColorResAndDrawable(
+                                R.color.colorPrimary,
+                                ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall3));
+                    case 3:
+                        return HeaderDesign.fromColorResAndDrawable(
+                                R.color.colorPrimary,
+                                ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall4));
+                }
+
+                //execute others actions if needed (ex : modify your header logo)
+
+                return null;
             }
         });
+
+        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
+        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
     }
 
@@ -112,32 +156,28 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         showHome();
-
                         break;
+
                     case R.id.nav_all_schedule:
                         showAllSche(getResources().getText(R.string.all_schedule));
-
                         break;
+
                     case R.id.nav_my_schedule:
                         showMySche(getResources().getText(R.string.my_schedule));
-
                         break;
+
                     case R.id.nav_find_friends:
                         showFindFriends(getResources().getText(R.string.find_friends));
-
                         break;
+
                     case R.id.nav_deview_story:
                         showDeviewStory(getResources().getText(R.string.deview_story));
-
                         break;
+
                     case R.id.nav_setting:
                         showSetting();
-
                         break;
-                    case R.id.nav_aboutus:
-                        showAboutus(getResources().getText(R.string.aboutus));
 
-                        break;
                 }
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
@@ -206,16 +246,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
         startActivity(new Intent(MainActivity.this, SettingActivity.class));
 
-    }
-
-    public void showAboutus(CharSequence title) {
-
-        mDrawerLayout.closeDrawers();
-
-        Fragment aboutusFragment = AboutusFragment.newInstance(title);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_container, aboutusFragment);
-        fragmentTransaction.addToBackStack(null).commit();
     }
 
     @Override

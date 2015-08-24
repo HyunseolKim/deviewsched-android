@@ -3,6 +3,8 @@ package com.gdgssu.android_deviewsched.ui.sche;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +25,7 @@ public class SchePagerFragment extends Fragment {
     private static final String TAG = "SchePagerFragment";
 
     private Track mTrackData;
+    private boolean sessionPickMode = false;
 
     public static SchePagerFragment newInstance(Track track) {
         SchePagerFragment fragment = new SchePagerFragment();
@@ -40,10 +43,11 @@ public class SchePagerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
 
-        if (getArguments() != null){
-            mTrackData = (Track)getArguments().getSerializable(TAG);
+        if (getArguments() != null) {
+            mTrackData = (Track) getArguments().getSerializable(TAG);
         }
 
     }
@@ -58,28 +62,17 @@ public class SchePagerFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_all_sche, menu);
-
-    }
-
     private void initScheListView(View rootView) {
-        ListView listview = (ListView) rootView.findViewById(R.id.fragment_sche_pager_list);
+        final ListView listview = (ListView) rootView.findViewById(R.id.fragment_sche_pager_list);
         SchePagerAdapter adapter = new SchePagerAdapter(mTrackData, DeviewSchedApplication.GLOBAL_CONTEXT);
 
         //임시로 아이템을 누르면 테스트중인 액티비티가 뜨게 만들어놓음
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /**
-                 * Item을 클릭했을때 Day부분(position 0, 8)을 누르면 아무일도 일어나지 않도록 해놓음
-                 * 이 Position은 Deview2015 스케줄이 나오고 꼭 다시한번 확인해보아야할 부분이다.
-                 */
-
-                if ((position==0)||(position==8)){
-                }else{
+                if (sessionPickMode) {
+                    listview.getChildAt(position).setBackgroundColor(getActivity().getColor(android.R.color.holo_blue_light));
+                } else {
                     getActivity().startActivity(new Intent(getActivity(), DetailSessionActivity.class));
                 }
             }
@@ -89,12 +82,23 @@ public class SchePagerFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_all_sche, menu);
+
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_all_sche_favorite:
 
-                Toast.makeText(getActivity(), "test favorite", Toast.LENGTH_SHORT).show();
+                if (sessionPickMode) {
+                    sessionPickMode = false;
+                } else {
+                    sessionPickMode = true;
+                }
 
                 return true;
         }

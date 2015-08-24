@@ -2,13 +2,22 @@ package com.gdgssu.android_deviewsched.ui.sche;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.ui.DeviewFragment;
@@ -38,6 +47,7 @@ public class ScheFragment extends DeviewFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             this.title = getArguments().getString(KEY_TITLE);
         }
@@ -70,16 +80,41 @@ public class ScheFragment extends DeviewFragment {
 
     private void initToolbar(View rootView) {
         Toolbar mToolbar = (Toolbar) rootView.findViewById(R.id.fragment_sche_toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
 
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(this.title);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).showHome();
+                ((MainActivity) getActivity()).showHome();
+            }
+        });
+
+        initToolbarSpinner(rootView);
+    }
+
+    private void initToolbarSpinner(View rootView) {
+        Spinner toolbarSpinner = (Spinner) rootView.findViewById(R.id.fragment_sche_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.days, R.layout.toolbar_spinner_item);
+        adapter.setDropDownViewResource(R.layout.toolbar_spinner_item_dropdown);
+        toolbarSpinner.setAdapter(adapter);
+        toolbarSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==0){
+                    Log.d(TAG, "day1");
+                }else{
+                    Log.d(TAG, "day2");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
