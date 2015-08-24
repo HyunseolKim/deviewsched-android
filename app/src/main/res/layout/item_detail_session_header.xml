@@ -110,7 +110,7 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:id="@+id/item_detail_session_head88dper_speaker_img"
+                    android:id="@+id/item_detail_session_header_speaker_img"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_gravity="center_horizontal"

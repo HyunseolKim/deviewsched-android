@@ -7,7 +7,10 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Speaker implements Serializable {
 
+    public int id;
     public String name;
+    public String organization;
     public String picture;
+    public String introduction;
 
 }
