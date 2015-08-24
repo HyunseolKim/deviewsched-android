@@ -109,19 +109,19 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
                 switch (page) {
                     case 0:
                         return HeaderDesign.fromColorResAndDrawable(
-                                android.R.color.black,
+                                R.color.colorPrimary,
                                 ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall1));
                     case 1:
                         return HeaderDesign.fromColorResAndDrawable(
-                                android.R.color.white,
+                                R.color.colorPrimary,
                                 ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall2));
                     case 2:
                         return HeaderDesign.fromColorResAndDrawable(
-                                android.R.color.black,
+                                R.color.colorPrimary,
                                 ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall3));
                     case 3:
                         return HeaderDesign.fromColorResAndDrawable(
-                                android.R.color.white,
+                                R.color.colorPrimary,
                                 ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall4));
                 }
 
