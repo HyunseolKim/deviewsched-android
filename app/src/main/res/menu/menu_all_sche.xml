@@ -5,7 +5,7 @@
     <item
         android:id="@+id/menu_all_sche_favorite"
         android:title="favorite"
-        android:icon="@drawable/ic_bookmark_white_24dp"
+        android:icon="@drawable/ic_stars_white_24dp"
         app:showAsAction="always"/>
 
 </menu>
