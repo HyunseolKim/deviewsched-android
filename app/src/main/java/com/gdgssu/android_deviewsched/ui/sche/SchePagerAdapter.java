@@ -32,21 +32,17 @@ public class SchePagerAdapter extends BaseAdapter {
      * 이 코드에서 Position과 관련한 부분은 Deview2015 스케줄이 나오고 꼭 다시한번 확인해보아야할 부분이다.
      */
 
-    private static final int TYPE_DAY = 0;
-    private static final int TYPE_SESSION = 1;
     private static final int TYPE_COUNT = 2;
+    private static final String[] SESSION_TIME =
+            {
+                    "09:20~09:40", "10:00~10:50", "11:00~11:50", "12:00~12:50", "12:50 ~ 14:10", "14:10 ~ 15:00", "15:10 ~ 16:00", "16:10 ~ 17:00", "17:15 ~ 18:30"
+            };
 
     private LayoutInflater mInflater;
     private ArrayList<Session> sessionItems;
     private Context mContext;
 
     public SchePagerAdapter(Track track, Context context) {
-
-        Session day1Item = new Session();
-        Session day2Item = new Session();
-
-        track.sessions.add(0, day1Item);
-        track.sessions.add(8, day2Item);
 
         this.sessionItems = track.sessions;
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -56,20 +52,6 @@ public class SchePagerAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         return sessionItems.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if ((position==0)||(position==8)) {
-            return TYPE_DAY;
-        } else {
-            return TYPE_SESSION;
-        }
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return TYPE_COUNT;
     }
 
     @Override
@@ -85,62 +67,33 @@ public class SchePagerAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        DayViewHolder dayHolder;
         SessionViewHolder sessionHolder;
 
-        switch (getItemViewType(position)){
-            case TYPE_DAY:
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.item_session_sche_sessioninfo, parent, false);
 
-                if (convertView==null){
-                    convertView = mInflater.inflate(R.layout.item_session_sche_day, parent, false);
+            sessionHolder = new SessionViewHolder();
 
-                    dayHolder = new DayViewHolder();
+            sessionHolder.speakerImg = (ImageView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_img);
+            sessionHolder.speakerImgSecond = (ImageView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_img_second);
+            sessionHolder.speakerName = (TextView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_name);
+            sessionHolder.sessionName = (TextView) convertView.findViewById(R.id.item_session_sche_sessioninfo_session_title);
 
-                    dayHolder.dayText = (TextView) convertView.findViewById(R.id.item_session_sche_day_day);
-                    dayHolder.dateText = (TextView) convertView.findViewById(R.id.item_session_sche_day_date);
+            convertView.setTag(sessionHolder);
 
-                    convertView.setTag(dayHolder);
-
-                }else{
-                    dayHolder = (DayViewHolder) convertView.getTag();
-                }
-
-                dayHolder.dayText.setText("Day 1");
-                dayHolder.dateText.setText("9.14");
-
-                break;
-
-            case TYPE_SESSION:
-
-                if (convertView==null){
-                    convertView = mInflater.inflate(R.layout.item_session_sche_sessioninfo, parent, false);
-
-                    sessionHolder = new SessionViewHolder();
-
-                    sessionHolder.speakerImg = (ImageView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_img);
-                    sessionHolder.speakerImgSecond = (ImageView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_img_second);
-                    sessionHolder.speakerName = (TextView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_name);
-                    sessionHolder.sessionName = (TextView) convertView.findViewById(R.id.item_session_sche_sessioninfo_session_title);
-
-                    convertView.setTag(sessionHolder);
-
-                }else{
-                    sessionHolder = (SessionViewHolder) convertView.getTag();
-                }
-
-                Session sessionItem = sessionItems.get(position);
-                Log.d("Position", position+"");
-
-                if (sessionItem.speakers.size() > 1) {
-                    setTwoSpeakerInfo(sessionHolder, sessionItem);
-                } else {
-                    setOneSpeakerInfo(sessionHolder, sessionItem);
-                }
-
-                sessionHolder.sessionName.setText(sessionItem.session_title);
-
-                break;
+        } else {
+            sessionHolder = (SessionViewHolder) convertView.getTag();
         }
+
+        Session sessionItem = sessionItems.get(position);
+
+        if (sessionItem.speakers.size() > 1) {
+            setTwoSpeakerInfo(sessionHolder, sessionItem);
+        } else {
+            setOneSpeakerInfo(sessionHolder, sessionItem);
+        }
+
+        sessionHolder.sessionName.setText(sessionItem.session_title);
 
         return convertView;
     }
@@ -182,12 +135,5 @@ public class SchePagerAdapter extends BaseAdapter {
         public ImageView speakerImgSecond;
         public TextView speakerName;
         public TextView sessionName;
-    }
-
-    public static class DayViewHolder {
-
-        public TextView dayText;
-        public TextView dateText;
-
     }
 }
