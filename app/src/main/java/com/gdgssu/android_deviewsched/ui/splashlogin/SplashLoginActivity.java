@@ -20,12 +20,16 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
+import com.gdgssu.android_deviewsched.helper.AuthorizationHelper;
 import com.gdgssu.android_deviewsched.helper.LoginPreferenceHelper;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
 import com.gdgssu.android_deviewsched.ui.MainActivity;
-import com.navercorp.volleyextensions.volleyer.Volleyer;
 
 import static com.navercorp.volleyextensions.volleyer.Volleyer.volleyer;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 public class SplashLoginActivity extends AppCompatActivity implements FacebookCallback<LoginResult> {
 
@@ -71,7 +75,7 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
                      * 서버로 토큰을 보내고 유저의 사진과 이름 정보를 가져와야한다.
                      * 더불어 메인화면에 보여줄 데이터도 가져와야함.
                      */
-                    //sendAccessToken(AccessToken.getCurrentAccessToken().getToken());
+                    sendAccessToken(AccessToken.getCurrentAccessToken().getToken());
                     goMainActivity();
                 } else {
                     getAllScheData();
@@ -155,18 +159,32 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
     }
 
     public void sendAccessToken(String accessToken) {
-        volleyer().post(DeviewSchedApplication.HOST_URL + "/sendToken")
-                .addHeader("X-Facebook-Token", accessToken)
+
+        String authString = null;
+        try {
+            authString = AuthorizationHelper.getAuthorizationHeader("/user", "POST", accessToken, "");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+
+        authString = String.format("X-DeviewSchedAuth %s", authString);
+
+        volleyer(DeviewSchedApplication.deviewRequestQueue).post(DeviewSchedApplication.HOST_URL + "user")
+                .addHeader("Authorization", authString)
                 .withListener(new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         //Todo 유저의 사진과 이름 그리고 메인화면에 보여줄 데이터를 가져와야함.
+                        Log.d(TAG, response);
                     }
                 })
                 .withErrorListener(new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                     }
                 })
                 .execute();

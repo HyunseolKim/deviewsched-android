@@ -77,7 +77,7 @@ public class SchePagerFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (sessionPickMode) {
-                    //  listview.getChildAt(position).setBackgroundColor(getActivity().getColor(android.R.color.holo_blue_light));
+
                 } else {
 
                     volleyer(DeviewSchedApplication.deviewRequestQueue)
