@@ -4,12 +4,12 @@
 
     <!-- Navigation View-->
     <string name="home">Home</string>
-    <string name="all_schedule">전체 시간표</string>
-    <string name="my_schedule">나의 시간표</string>
-    <string name="find_friends">친구 찾기</string>
+    <string name="all_schedule">All Sessions</string>
+    <string name="my_schedule">Favorite Sessions</string>
+    <string name="find_friends">Find My Friends</string>
     <string name="deview_story">#Deview2015</string>
-    <string name="location">location</string>
-    <string name="setting">설정</string>
+    <string name="location">Location</string>
+    <string name="setting">Setting</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
