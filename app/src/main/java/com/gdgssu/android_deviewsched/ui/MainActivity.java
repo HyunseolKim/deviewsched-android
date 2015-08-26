@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.facebook.appevents.AppEventsLogger;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.example.RecyclerViewFragment;
-import com.gdgssu.android_deviewsched.ui.location.LocationFragment;
+import com.gdgssu.android_deviewsched.ui.location.LocationActivity;
 import com.gdgssu.android_deviewsched.ui.sche.ScheFragment;
 import com.gdgssu.android_deviewsched.ui.deviewstory.DeviewStoryFragment;
 import com.gdgssu.android_deviewsched.ui.findfriends.FindFriendsFragment;
@@ -249,10 +249,7 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
         mDrawerLayout.closeDrawers();
 
-        Fragment locationFragment = LocationFragment.newInstance(title);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_container, locationFragment);
-        fragmentTransaction.addToBackStack(null).commit();
+        startActivity(new Intent(MainActivity.this, LocationActivity.class));
 
     }
 

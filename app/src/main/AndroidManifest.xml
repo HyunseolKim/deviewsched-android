@@ -3,6 +3,8 @@
     package="com.gdgssu.android_deviewsched" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:name=".DeviewSchedApplication"
@@ -46,6 +48,11 @@
         <activity
             android:name=".ui.detailsession.DetailSessionActivity"
             android:label="@string/title_activity_detail_session"
+            android:theme="@style/DeviewAppTheme"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".ui.location.LocationActivity"
             android:theme="@style/DeviewAppTheme"
             android:screenOrientation="portrait">
         </activity>
