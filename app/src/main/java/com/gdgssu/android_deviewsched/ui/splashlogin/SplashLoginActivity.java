@@ -23,6 +23,7 @@ import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.helper.AuthorizationHelper;
 import com.gdgssu.android_deviewsched.helper.LoginPreferenceHelper;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
+import com.gdgssu.android_deviewsched.model.User;
 import com.gdgssu.android_deviewsched.ui.MainActivity;
 
 import static com.navercorp.volleyextensions.volleyer.Volleyer.volleyer;
@@ -35,8 +36,10 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
 
     private static final String TAG = "SplashLoginActivity";
 
-    private CallbackManager callbackManager;
+    private boolean loginComplete = false;
+    private boolean getScheComplete = false;
 
+    private CallbackManager callbackManager;
     private LinearLayout frontInfo;
 
     /**
@@ -70,15 +73,8 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
             public void run() {
                 if (DeviewSchedApplication.LOGIN_STATE) {
                     getAllScheData();
-                    /**
-                     * Todo 기 로그인 사용자는 이 부분에서
-                     * 서버로 토큰을 보내고 유저의 사진과 이름 정보를 가져와야한다.
-                     * 더불어 메인화면에 보여줄 데이터도 가져와야함.
-                     */
-                    sendAccessToken(AccessToken.getCurrentAccessToken().getToken());
-                    goMainActivity();
                 } else {
-                    getAllScheData();
+                    frontInfoLayoutFadeout();
                 }
             }
         }, 3000);
@@ -98,11 +94,6 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
 
     }
 
-    public void goMainActivity() {
-        finish();
-        startActivity(new Intent(SplashLoginActivity.this, MainActivity.class));
-    }
-
     private void getAllScheData() {
 
         volleyer(DeviewSchedApplication.deviewRequestQueue)
@@ -112,10 +103,14 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
                     @Override
                     public void onResponse(AllScheItems items) {
                         AllScheItems.result = items;
-                        if (DeviewSchedApplication.LOGIN_STATE) {
-
-                        } else {
-                            frontInfoLayoutFadeout();
+                        try {
+                            loginRequest(AccessToken.getCurrentAccessToken().getToken());
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        } catch (InvalidKeyException e) {
+                            e.printStackTrace();
                         }
                     }
                 })
@@ -158,36 +153,64 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void sendAccessToken(String accessToken) {
+    public void loginRequest(String accessToken) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+        String authString = "";
 
-        String authString = null;
-        try {
+        if (DeviewSchedApplication.LOGIN_STATE) {
+            /**
+             * Todo 기 로그인 사용자는 이 부분에서
+             * 서버로 토큰을 보내고 유저의 사진과 이름 정보를 가져와야한다.
+             * 더불어 메인화면에 보여줄 데이터도 가져와야함.
+             */
+            authString = AuthorizationHelper.getAuthorizationHeader("/user", "GET", accessToken, "");
+
+            volleyer(DeviewSchedApplication.deviewRequestQueue).get(DeviewSchedApplication.HOST_URL + "user")
+                    .addHeader("Authorization", authString)
+                    .withTargetClass(User.class)
+                    .withListener(new Response.Listener<User>() {
+                        @Override
+                        public void onResponse(User response) {
+                            DeviewSchedApplication.userData = response;
+
+                            Intent intent = new Intent(SplashLoginActivity.this, MainActivity.class);
+                            intent.putExtra("UserInfo", response);
+
+                            finish();
+                            startActivity(intent);
+                        }
+                    })
+                    .withErrorListener(new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    })
+                    .execute();
+
+        } else {
             authString = AuthorizationHelper.getAuthorizationHeader("/user", "POST", accessToken, "");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
+
+            volleyer(DeviewSchedApplication.deviewRequestQueue).post(DeviewSchedApplication.HOST_URL + "user")
+                    .addHeader("Authorization", authString)
+                    .withTargetClass(User.class)
+                    .withListener(new Response.Listener<User>() {
+                        @Override
+                        public void onResponse(User response) {
+                            DeviewSchedApplication.userData = response;
+
+                            Intent intent = new Intent(SplashLoginActivity.this, MainActivity.class);
+                            intent.putExtra("UserInfo", response);
+
+                            finish();
+                            startActivity(intent);
+                        }
+                    })
+                    .withErrorListener(new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    })
+                    .execute();
         }
-
-        authString = String.format("X-DeviewSchedAuth %s", authString);
-
-        volleyer(DeviewSchedApplication.deviewRequestQueue).post(DeviewSchedApplication.HOST_URL + "user")
-                .addHeader("Authorization", authString)
-                .withListener(new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //Todo 유저의 사진과 이름 그리고 메인화면에 보여줄 데이터를 가져와야함.
-                        Log.d(TAG, response);
-                    }
-                })
-                .withErrorListener(new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                })
-                .execute();
     }
 
     /**
@@ -198,18 +221,10 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
 
     @Override
     public void onSuccess(LoginResult loginResult) {
-        Log.d("Login", "onSuccess");
-
-        /**
-         * Todo 초기 로그인 사용자는 이 부분에서
-         * 서버로 토큰을 보내고 유저의 사진과 이름 정보를 가져와야한다.
-         */
-
-        //sendAccessToken(AccessToken.getCurrentAccessToken().getToken());
+        getAllScheData();
 
         LoginPreferenceHelper prefHelper = new LoginPreferenceHelper(DeviewSchedApplication.GLOBAL_CONTEXT);
         prefHelper.setPrefLoginValue(LoginPreferenceHelper.PREF_LOGIN_STATE, true);
-        goMainActivity();
 
     }
 

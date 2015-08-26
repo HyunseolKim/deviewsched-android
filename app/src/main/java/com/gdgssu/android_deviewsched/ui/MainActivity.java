@@ -19,14 +19,18 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.appevents.AppEventsLogger;
+import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.example.RecyclerViewFragment;
+import com.gdgssu.android_deviewsched.model.User;
 import com.gdgssu.android_deviewsched.ui.location.LocationActivity;
 import com.gdgssu.android_deviewsched.ui.sche.ScheFragment;
 import com.gdgssu.android_deviewsched.ui.deviewstory.DeviewStoryFragment;
 import com.gdgssu.android_deviewsched.ui.findfriends.FindFriendsFragment;
 import com.gdgssu.android_deviewsched.ui.setting.SettingActivity;
+import com.gdgssu.android_deviewsched.util.GlideCircleTransform;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 
@@ -42,12 +46,17 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
+    private User userInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         fragmentManager = getSupportFragmentManager();
+
+        Intent intent = getIntent();
+        userInfo = (User) intent.getSerializableExtra("UserInfo");
 
         initMaterialViewPager();
         initToolbar();
@@ -101,7 +110,8 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
                     case 3:
                         return "Divertissement";
                 }
-                return "";            }
+                return "";
+            }
         });
 
         mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
@@ -147,6 +157,13 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
         avatarImage = (ImageView) findViewById(R.id.profile_image);
         nameText = (TextView) findViewById(R.id.profile_name_text);
+
+        Glide.with(getApplicationContext())
+                .load(userInfo.picture)
+                .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
+                .override(32, 32) //임의로 결정한 크기임.
+                .into(avatarImage);
+        nameText.setText(userInfo.name);
 
     }
 

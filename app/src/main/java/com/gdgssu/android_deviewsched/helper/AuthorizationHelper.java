@@ -29,6 +29,7 @@ public class AuthorizationHelper {
 
         String result = Base64.encodeToString(requestJson.getBytes("UTF-8"), Base64.DEFAULT);
         result = deleteNewline(result);
+        result = String.format("X-DeviewSchedAuth %s", result);
 
         return result;
 
