@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/navi_drawer_bg" />
+        android:src="@drawable/backwall2" />
 
     <RelativeLayout
         android:id="@+id/chosen_account_content_view"
