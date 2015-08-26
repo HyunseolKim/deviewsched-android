@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.facebook.appevents.AppEventsLogger;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.example.RecyclerViewFragment;
+import com.gdgssu.android_deviewsched.ui.location.LocationFragment;
 import com.gdgssu.android_deviewsched.ui.sche.ScheFragment;
 import com.gdgssu.android_deviewsched.ui.deviewstory.DeviewStoryFragment;
 import com.gdgssu.android_deviewsched.ui.findfriends.FindFriendsFragment;
@@ -174,6 +175,10 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
                         showDeviewStory(getResources().getText(R.string.deview_story));
                         break;
 
+                    case R.id.nav_location:
+                        showLocation(getResources().getText(R.string.location));
+                        break;
+
                     case R.id.nav_setting:
                         showSetting();
                         break;
@@ -236,6 +241,17 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
         Fragment deviewStoryFragment = DeviewStoryFragment.newInstance(title);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_container, deviewStoryFragment);
+        fragmentTransaction.addToBackStack(null).commit();
+
+    }
+
+    public void showLocation(CharSequence title) {
+
+        mDrawerLayout.closeDrawers();
+
+        Fragment locationFragment = LocationFragment.newInstance(title);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_container, locationFragment);
         fragmentTransaction.addToBackStack(null).commit();
 
     }

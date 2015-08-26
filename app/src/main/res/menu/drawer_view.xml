@@ -23,6 +23,10 @@
             android:icon="@drawable/ic_chat_black_24dp"
             android:title="@string/deview_story" />
         <item
+            android:id="@+id/nav_location"
+            android:icon="@drawable/ic_chat_black_24dp"
+            android:title="@string/location" />
+        <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_settings_applications_black_24dp"
             android:title="@string/setting" />
