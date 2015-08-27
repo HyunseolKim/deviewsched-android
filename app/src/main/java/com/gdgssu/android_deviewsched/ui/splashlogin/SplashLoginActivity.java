@@ -43,6 +43,10 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
     private LinearLayout frontInfo;
     private LoginButton loginButton;
 
+    private String currentTokenString;
+
+    private LoginPreferenceHelper prefHelper;
+
     /**
      * 애플리케이션에 유저 로그인이 되어있는 상태와 되어있지 않은 상태로 액티비티에서 하는 일이 달라짐
      * DeviewSchedApplication.LOGIN_STATE로 데뷰 앱에 로그인이 되어있는 상태를 받아왔을 떄,
@@ -68,6 +72,8 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
 
         callbackManager = CallbackManager.Factory.create();
 
+        prefHelper = new LoginPreferenceHelper(DeviewSchedApplication.GLOBAL_CONTEXT);
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -78,7 +84,7 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
                     frontInfoLayoutFadeout();
                 }
             }
-        }, 3000);
+        }, 2000);
     }
 
     private void initView() {
@@ -105,7 +111,7 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
                     public void onResponse(AllScheItems items) {
                         AllScheItems.result = items;
                         try {
-                            loginRequest(AccessToken.getCurrentAccessToken().getToken());
+                            loginRequest();
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         } catch (NoSuchAlgorithmException e) {
@@ -130,7 +136,6 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
         animationFadeout.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
@@ -154,7 +159,16 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void loginRequest(String accessToken) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+    public void loginRequest() throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+
+        currentTokenString = AccessToken.getCurrentAccessToken().getToken();
+        String beforeTokenString = prefHelper.getAccessTokenValue(LoginPreferenceHelper.PREF_ACCESS_TOKEN, "");
+        if (currentTokenString.equals(beforeTokenString)){
+        }else{
+            prefHelper.setAccessTokenValue(LoginPreferenceHelper.PREF_ACCESS_TOKEN, currentTokenString);
+            DeviewSchedApplication.LOGIN_STATE = false;
+        }
+
         String authString = "";
 
         if (DeviewSchedApplication.LOGIN_STATE) {
@@ -163,7 +177,7 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
              * 서버로 토큰을 보내고 유저의 사진과 이름 정보를 가져와야한다.
              * 더불어 메인화면에 보여줄 데이터도 가져와야함.
              */
-            authString = AuthorizationHelper.getAuthorizationHeader("/user", "GET", accessToken, "");
+            authString = AuthorizationHelper.getAuthorizationHeader("/user", "GET", currentTokenString, "");
 
             volleyer(DeviewSchedApplication.deviewRequestQueue).get(DeviewSchedApplication.HOST_URL + "user")
                     .addHeader("Authorization", authString)
@@ -188,7 +202,9 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
                     .execute();
 
         } else {
-            authString = AuthorizationHelper.getAuthorizationHeader("/user", "POST", accessToken, "");
+            DeviewSchedApplication.LOGIN_STATE = true;
+
+            authString = AuthorizationHelper.getAuthorizationHeader("/user", "POST", currentTokenString, "");
 
             volleyer(DeviewSchedApplication.deviewRequestQueue).post(DeviewSchedApplication.HOST_URL + "user")
                     .addHeader("Authorization", authString)
@@ -225,8 +241,8 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
         loginButton.setVisibility(View.INVISIBLE);
         getAllScheData();
 
-        LoginPreferenceHelper prefHelper = new LoginPreferenceHelper(DeviewSchedApplication.GLOBAL_CONTEXT);
         prefHelper.setPrefLoginValue(LoginPreferenceHelper.PREF_LOGIN_STATE, true);
+        prefHelper.setAccessTokenValue(LoginPreferenceHelper.PREF_ACCESS_TOKEN, currentTokenString);
 
     }
 
