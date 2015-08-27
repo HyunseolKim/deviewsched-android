@@ -8,8 +8,12 @@ import java.util.ArrayList;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Session implements Serializable {
 
+    public int day;
+    public long starts_at;
+    public ArrayList<Speaker> speakers;
+    public int track;
     public int id;
     public String title;
-    public ArrayList<Speaker> speakers;
+    public long ends_at;
 
 }

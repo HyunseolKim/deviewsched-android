@@ -41,6 +41,7 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
 
     private CallbackManager callbackManager;
     private LinearLayout frontInfo;
+    private LoginButton loginButton;
 
     /**
      * 애플리케이션에 유저 로그인이 되어있는 상태와 되어있지 않은 상태로 액티비티에서 하는 일이 달라짐
@@ -81,7 +82,7 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
     }
 
     private void initView() {
-        final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("user_friends");
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,6 +222,7 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
 
     @Override
     public void onSuccess(LoginResult loginResult) {
+        loginButton.setVisibility(View.INVISIBLE);
         getAllScheData();
 
         LoginPreferenceHelper prefHelper = new LoginPreferenceHelper(DeviewSchedApplication.GLOBAL_CONTEXT);
