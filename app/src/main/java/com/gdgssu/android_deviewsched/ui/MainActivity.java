@@ -95,20 +95,18 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
             @Override
             public int getCount() {
-                return 4;
+                return 3;
             }
 
             @Override
             public CharSequence getPageTitle(int position) {
-                switch (position % 4) {
+                switch (position % 3) {
                     case 0:
-                        return "Selection";
+                        return "Deview2015";
                     case 1:
-                        return "Actualités";
+                        return "Hot Sessions";
                     case 2:
-                        return "Professionnel";
-                    case 3:
-                        return "Divertissement";
+                        return "#Deview2015";
                 }
                 return "";
             }
@@ -130,10 +128,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.colorPrimary,
                                 ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall3));
-                    case 3:
-                        return HeaderDesign.fromColorResAndDrawable(
-                                R.color.colorPrimary,
-                                ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall4));
                 }
 
                 //execute others actions if needed (ex : modify your header logo)
@@ -161,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
         Glide.with(getApplicationContext())
                 .load(userInfo.picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
-                .override(32, 32) //임의로 결정한 크기임.
                 .into(avatarImage);
         nameText.setText(userInfo.name);
 

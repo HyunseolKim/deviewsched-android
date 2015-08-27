@@ -88,7 +88,7 @@ public class SchePagerAdapter extends BaseAdapter {
 
     public void setOneSpeakerInfo(SessionViewHolder sessionHolder, Session sessionItem) {
         sessionHolder.speakerImgSecond.setVisibility(View.GONE);
-        
+
         Glide.with(mContext)
                 .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
