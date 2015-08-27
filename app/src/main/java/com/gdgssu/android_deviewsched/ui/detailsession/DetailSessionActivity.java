@@ -6,6 +6,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +85,7 @@ public class DetailSessionActivity extends AppCompatActivity {
 
     public void setData() {
         sessionTitle.setText(sessionInfo.title);
-        sessionDesc.setText(sessionInfo.description);
+        sessionDesc.setText(Html.fromHtml(sessionInfo.description));
 
         for (int i=0;i<speakers.speakers.size();i++){
             setSpeakerInfo(i);
@@ -106,7 +107,7 @@ public class DetailSessionActivity extends AppCompatActivity {
 
         speakerName.setText(speakers.speakers.get(index).name);
         speakerOrg.setText(speakers.speakers.get(index).organization);
-        speakerIntro.setText(speakers.speakers.get(index).introduction);
+        speakerIntro.setText(Html.fromHtml(speakers.speakers.get(index).introduction));
 
         speakerBasket.addView(speakerInfoLayout);
     }
