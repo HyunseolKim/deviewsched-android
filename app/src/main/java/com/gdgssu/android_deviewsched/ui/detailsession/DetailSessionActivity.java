@@ -101,7 +101,6 @@ public class DetailSessionActivity extends AppCompatActivity {
         Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
                 .load(speakers.speakers.get(index).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
-                .override(64, 64) //임의로 결정한 크기임.
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(speakerPicture);
 

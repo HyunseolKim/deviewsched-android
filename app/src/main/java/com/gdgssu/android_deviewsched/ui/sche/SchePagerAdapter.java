@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
+import com.gdgssu.android_deviewsched.helper.DPtoPixelConvertHelper;
 import com.gdgssu.android_deviewsched.model.Session;
 import com.gdgssu.android_deviewsched.model.Track;
 import com.gdgssu.android_deviewsched.util.GlideCircleTransform;
@@ -87,11 +88,10 @@ public class SchePagerAdapter extends BaseAdapter {
 
     public void setOneSpeakerInfo(SessionViewHolder sessionHolder, Session sessionItem) {
         sessionHolder.speakerImgSecond.setVisibility(View.GONE);
-
+        
         Glide.with(mContext)
                 .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
-                .override(54, 54) //임의로 결정한 크기임.
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(sessionHolder.speakerImg);
 
@@ -104,14 +104,12 @@ public class SchePagerAdapter extends BaseAdapter {
         Glide.with(mContext)
                 .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
-                .override(54, 54) //임의로 결정한 크기임.
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(sessionHolder.speakerImg);
 
         Glide.with(mContext)
                 .load(sessionItem.speakers.get(1).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
-                .override(54, 54) //임의로 결정한 크기임.
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(sessionHolder.speakerImgSecond);
 
