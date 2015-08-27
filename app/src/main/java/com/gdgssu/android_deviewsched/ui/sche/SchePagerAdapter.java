@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.model.Session;
@@ -91,6 +92,7 @@ public class SchePagerAdapter extends BaseAdapter {
                 .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .override(54, 54) //임의로 결정한 크기임.
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(sessionHolder.speakerImg);
 
         sessionHolder.speakerName.setText(sessionItem.speakers.get(0).name);
@@ -103,12 +105,14 @@ public class SchePagerAdapter extends BaseAdapter {
                 .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .override(54, 54) //임의로 결정한 크기임.
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(sessionHolder.speakerImg);
 
         Glide.with(mContext)
                 .load(sessionItem.speakers.get(1).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .override(54, 54) //임의로 결정한 크기임.
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(sessionHolder.speakerImgSecond);
 
         sessionHolder.speakerName.setText(sessionItem.speakers.get(0).name + "/" + sessionItem.speakers.get(1).name);

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.model.DetailSessionInfo;
@@ -101,6 +102,7 @@ public class DetailSessionActivity extends AppCompatActivity {
                 .load(speakers.speakers.get(index).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .override(64, 64) //임의로 결정한 크기임.
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(speakerPicture);
 
         speakerName.setText(speakers.speakers.get(index).name);
