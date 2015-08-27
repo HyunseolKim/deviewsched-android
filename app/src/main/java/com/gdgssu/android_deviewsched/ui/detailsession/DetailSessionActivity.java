@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,10 +43,8 @@ public class DetailSessionActivity extends AppCompatActivity {
 
     private TextView sessionTitle;
     private TextView sessionDesc;
-    private ImageView speakerPicture;
-    private TextView speakerName;
-    private TextView speakerOrg;
-    private TextView speakerIntro;
+    private LinearLayout speakerBasket;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,16 +85,31 @@ public class DetailSessionActivity extends AppCompatActivity {
         sessionTitle.setText(sessionInfo.title);
         sessionDesc.setText(sessionInfo.description);
 
+        for (int i=0;i<speakers.speakers.size();i++){
+            setSpeakerInfo(i);
+        }
+    }
+
+    private void setSpeakerInfo(int index) {
+        LinearLayout speakerInfoLayout = (LinearLayout)LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_speaker_info, null, false);
+        ImageView speakerPicture = (ImageView)speakerInfoLayout.findViewById(R.id.item_detail_session_header_speaker_img);
+        TextView speakerName = (TextView)speakerInfoLayout.findViewById(R.id.item_detail_session_header_name);
+        TextView speakerOrg = (TextView)speakerInfoLayout.findViewById(R.id.item_detail_session_header_company);
+        TextView speakerIntro = (TextView)speakerInfoLayout.findViewById(R.id.item_detail_session_header_speakerinfo);
+
         Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
-                .load(speakers.speakers.get(0).picture)
+                .load(speakers.speakers.get(index).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .override(64, 64) //임의로 결정한 크기임.
                 .into(speakerPicture);
 
-        speakerName.setText(speakers.speakers.get(0).name);
-        speakerOrg.setText(speakers.speakers.get(0).organization);
-        speakerIntro.setText(speakers.speakers.get(0).introduction);
+        speakerName.setText(speakers.speakers.get(index).name);
+        speakerOrg.setText(speakers.speakers.get(index).organization);
+        speakerIntro.setText(speakers.speakers.get(index).introduction);
+
+        speakerBasket.addView(speakerInfoLayout);
     }
+
 
     private void initView() {
 
@@ -147,10 +162,7 @@ public class DetailSessionActivity extends AppCompatActivity {
 
         sessionTitle = (TextView)headerView.findViewById(R.id.item_detail_session_header_title);
         sessionDesc = (TextView)headerView.findViewById(R.id.item_detail_session_header_sessioninfo);
-        speakerPicture = (ImageView)headerView.findViewById(R.id.item_detail_session_header_speaker_img);
-        speakerName = (TextView)headerView.findViewById(R.id.item_detail_session_header_name);
-        speakerOrg = (TextView)headerView.findViewById(R.id.item_detail_session_header_company);
-        speakerIntro = (TextView)headerView.findViewById(R.id.item_detail_session_header_speakerinfo);
+        speakerBasket = (LinearLayout)headerView.findViewById(R.id.item_detail_session_header_speaker_basket);
 
         listView.addHeaderView(headerView);
     }
