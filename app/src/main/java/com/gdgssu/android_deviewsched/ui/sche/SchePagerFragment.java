@@ -34,6 +34,9 @@ public class SchePagerFragment extends Fragment {
     private Track mTrackData;
     private boolean sessionPickMode = false;
 
+    private ListView listview;
+    private SchePagerAdapter adapter;
+
     public static SchePagerFragment newInstance(Track track) {
         SchePagerFragment fragment = new SchePagerFragment();
         Bundle bundle = new Bundle();
@@ -70,8 +73,8 @@ public class SchePagerFragment extends Fragment {
     }
 
     private void initScheListView(View rootView) {
-        final ListView listview = (ListView) rootView.findViewById(R.id.fragment_sche_pager_list);
-        final SchePagerAdapter adapter = new SchePagerAdapter(mTrackData, DeviewSchedApplication.GLOBAL_CONTEXT);
+        listview = (ListView) rootView.findViewById(R.id.fragment_sche_pager_list);
+        adapter = new SchePagerAdapter(mTrackData, DeviewSchedApplication.GLOBAL_CONTEXT);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

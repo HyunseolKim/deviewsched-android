@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.gdgssu.android_deviewsched.R;
+import com.gdgssu.android_deviewsched.model.AllScheItems;
 import com.gdgssu.android_deviewsched.ui.DeviewFragment;
 import com.gdgssu.android_deviewsched.ui.MainActivity;
 
@@ -31,6 +32,8 @@ public class ScheFragment extends DeviewFragment {
     private CharSequence title;
 
     private String TAG = "ScheFragment";
+
+    private SchePagerFragmentAdapter mAdapter;
 
     public static ScheFragment newInstance(CharSequence title) {
         ScheFragment fragment = new ScheFragment();
@@ -73,7 +76,7 @@ public class ScheFragment extends DeviewFragment {
 
     private void initFragmentPager(View rootView) {
         mPager = (ViewPager) rootView.findViewById(R.id.fragment_sche_content_pager);
-        SchePagerFragmentAdapter mAdapter = new SchePagerFragmentAdapter(getChildFragmentManager());
+        mAdapter = new SchePagerFragmentAdapter(getChildFragmentManager(), AllScheItems.result.days.get(0));
 
         mPager.setAdapter(mAdapter);
     }
@@ -106,9 +109,13 @@ public class ScheFragment extends DeviewFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position==0){
+                    mAdapter.setDayItem(AllScheItems.result.days.get(0));
+                    mAdapter.notifyDataSetChanged();
                     Log.d(TAG, "day1");
                 }else{
-                    Log.d(TAG, "day2");
+                    mAdapter.setDayItem(AllScheItems.result.days.get(1));
+                    mAdapter.notifyDataSetChanged();
+                    Log.d(TAG, AllScheItems.result.days.get(1).tracks.get(0).sessions.get(0).title);
                 }
             }
 
