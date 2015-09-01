@@ -1,6 +1,7 @@
 package com.gdgssu.android_deviewsched.ui.sche;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class SchePagerAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
     private ArrayList<Session> sessionItems;
+    private ArrayList<Integer> mSelectedItemPosition = new ArrayList<>();
     private Context mContext;
 
     public SchePagerAdapter(Track track, Context context) {
@@ -35,6 +37,10 @@ public class SchePagerAdapter extends BaseAdapter {
         this.sessionItems = track.sessions;
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mContext = context;
+    }
+
+    public void addSelectedItemPosition(int position){
+        mSelectedItemPosition.add(position);
     }
 
     @Override
@@ -47,7 +53,6 @@ public class SchePagerAdapter extends BaseAdapter {
         return sessionItems.get(position);
     }
 
-    //오류의 소지가 있음
     @Override
     public long getItemId(int position) {
         return position;
@@ -82,6 +87,12 @@ public class SchePagerAdapter extends BaseAdapter {
         }
 
         sessionHolder.sessionName.setText(sessionItem.title);
+
+        for (int i=0;i<mSelectedItemPosition.size();i++){
+            if (position==mSelectedItemPosition.get(i)){
+                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
+            }
+        }
 
         return convertView;
     }

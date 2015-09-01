@@ -3,6 +3,7 @@ package com.gdgssu.android_deviewsched.ui.sche;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import com.gdgssu.android_deviewsched.model.Day;
 

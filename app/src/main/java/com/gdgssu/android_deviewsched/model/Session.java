@@ -15,5 +15,6 @@ public class Session implements Serializable {
     public int id;
     public String title;
     public long ends_at;
+    public boolean isSelected = false;
 
 }

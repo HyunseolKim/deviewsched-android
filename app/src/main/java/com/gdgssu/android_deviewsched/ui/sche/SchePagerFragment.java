@@ -1,5 +1,6 @@
 package com.gdgssu.android_deviewsched.ui.sche;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -80,7 +81,8 @@ public class SchePagerFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (sessionPickMode) {
-
+                    adapter.addSelectedItemPosition(position);
+                    adapter.notifyDataSetChanged();
                 } else {
 
                     volleyer(DeviewSchedApplication.deviewRequestQueue)

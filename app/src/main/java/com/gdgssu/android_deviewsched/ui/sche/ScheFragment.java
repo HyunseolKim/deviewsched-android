@@ -64,21 +64,32 @@ public class ScheFragment extends DeviewFragment {
 
         initToolbar(rootView);
         initFragmentPager(rootView);
-        initTabLayout(rootView);
 
         return rootView;
-    }
-
-    private void initTabLayout(View rootView) {
-        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.fragment_sche_tabs);
-        tabLayout.setupWithViewPager(mPager);
     }
 
     private void initFragmentPager(View rootView) {
         mPager = (ViewPager) rootView.findViewById(R.id.fragment_sche_content_pager);
         mAdapter = new SchePagerFragmentAdapter(getChildFragmentManager(), AllScheItems.result.days.get(0));
-
         mPager.setAdapter(mAdapter);
+
+        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.fragment_sche_tabs);
+        tabLayout.setupWithViewPager(mPager);
+
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     private void initToolbar(View rootView) {
