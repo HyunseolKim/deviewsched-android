@@ -208,14 +208,10 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
          * Todo 아래의 메소드가 호출되면 MainActivity위로 있는 모든 Fragment가 소멸됨
          */
 
-        mDrawerLayout.closeDrawers();
-
         fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     public void showAllSche(CharSequence title) {
-
-        mDrawerLayout.closeDrawers();
 
         Fragment allScheFragment = ScheFragment.newInstance(title);
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -224,8 +220,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
     }
 
     public void showMySche(CharSequence title) {
-
-        mDrawerLayout.closeDrawers();
 
         Fragment myScheFragment = ScheFragment.newInstance(title);
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -236,8 +230,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
     public void showFindFriends(CharSequence title) {
 
-        mDrawerLayout.closeDrawers();
-
         Fragment findFriendsFragment = FindFriendsFragment.newInstance(title);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_container, findFriendsFragment);
@@ -246,8 +238,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
     }
 
     public void showDeviewStory(CharSequence title) {
-
-        mDrawerLayout.closeDrawers();
 
         Fragment deviewStoryFragment = DeviewStoryFragment.newInstance(title);
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -258,15 +248,11 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
 
     public void showLocation(CharSequence title) {
 
-        mDrawerLayout.closeDrawers();
-
         startActivity(new Intent(MainActivity.this, LocationActivity.class));
 
     }
 
     public void showSetting() {
-
-        mDrawerLayout.closeDrawers();
 
         startActivity(new Intent(MainActivity.this, SettingActivity.class));
 
