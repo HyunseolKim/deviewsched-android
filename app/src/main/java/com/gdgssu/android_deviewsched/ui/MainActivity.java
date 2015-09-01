@@ -25,6 +25,7 @@ import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.example.RecyclerViewFragment;
 import com.gdgssu.android_deviewsched.model.User;
+import com.gdgssu.android_deviewsched.model.UserItem;
 import com.gdgssu.android_deviewsched.ui.location.LocationActivity;
 import com.gdgssu.android_deviewsched.ui.sche.ScheFragment;
 import com.gdgssu.android_deviewsched.ui.deviewstory.DeviewStoryFragment;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
-    private User userInfo;
+    private UserItem userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
         fragmentManager = getSupportFragmentManager();
 
         Intent intent = getIntent();
-        userInfo = (User) intent.getSerializableExtra("UserInfo");
+        userInfo = (UserItem) intent.getSerializableExtra("UserInfo");
 
         initMaterialViewPager();
         initToolbar();
@@ -153,10 +154,10 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
         nameText = (TextView) findViewById(R.id.profile_name_text);
 
         Glide.with(getApplicationContext())
-                .load(userInfo.picture)
+                .load(userInfo.user.picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .into(avatarImage);
-        nameText.setText(userInfo.name);
+        nameText.setText(userInfo.user.name);
 
     }
 

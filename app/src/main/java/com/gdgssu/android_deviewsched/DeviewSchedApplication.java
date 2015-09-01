@@ -8,6 +8,7 @@ import com.facebook.FacebookSdk;
 import com.gdgssu.android_deviewsched.helper.LoginPreferenceHelper;
 
 import com.gdgssu.android_deviewsched.model.User;
+import com.gdgssu.android_deviewsched.model.UserItem;
 import com.navercorp.volleyextensions.volleyer.factory.DefaultRequestQueueFactory;
 
 public class DeviewSchedApplication extends Application{
@@ -19,8 +20,6 @@ public class DeviewSchedApplication extends Application{
     private static final String TAG = "DeviewSchedApplication";
 
     public static RequestQueue deviewRequestQueue;
-
-    public static User userData;
 
     @Override
     public void onCreate() {

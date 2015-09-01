@@ -24,6 +24,7 @@ import com.gdgssu.android_deviewsched.helper.AuthorizationHelper;
 import com.gdgssu.android_deviewsched.helper.LoginPreferenceHelper;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
 import com.gdgssu.android_deviewsched.model.User;
+import com.gdgssu.android_deviewsched.model.UserItem;
 import com.gdgssu.android_deviewsched.ui.MainActivity;
 
 import static com.navercorp.volleyextensions.volleyer.Volleyer.volleyer;
@@ -163,71 +164,32 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
 
         currentTokenString = AccessToken.getCurrentAccessToken().getToken();
         String beforeTokenString = prefHelper.getAccessTokenValue(LoginPreferenceHelper.PREF_ACCESS_TOKEN, "");
-        if (currentTokenString.equals(beforeTokenString)){
-        }else{
-            prefHelper.setAccessTokenValue(LoginPreferenceHelper.PREF_ACCESS_TOKEN, currentTokenString);
-            DeviewSchedApplication.LOGIN_STATE = false;
-        }
-
-        String authString = "";
-
-        if (DeviewSchedApplication.LOGIN_STATE) {
-            /**
-             * Todo 기 로그인 사용자는 이 부분에서
-             * 서버로 토큰을 보내고 유저의 사진과 이름 정보를 가져와야한다.
-             * 더불어 메인화면에 보여줄 데이터도 가져와야함.
-             */
-            authString = AuthorizationHelper.getAuthorizationHeader("/user", "GET", currentTokenString, "");
-
-            volleyer(DeviewSchedApplication.deviewRequestQueue).get(DeviewSchedApplication.HOST_URL + "user")
-                    .addHeader("Authorization", authString)
-                    .withTargetClass(User.class)
-                    .withListener(new Response.Listener<User>() {
-                        @Override
-                        public void onResponse(User response) {
-                            DeviewSchedApplication.userData = response;
-
-                            Intent intent = new Intent(SplashLoginActivity.this, MainActivity.class);
-                            intent.putExtra("UserInfo", response);
-
-                            finish();
-                            startActivity(intent);
-                        }
-                    })
-                    .withErrorListener(new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                        }
-                    })
-                    .execute();
-
+        if (currentTokenString.equals(beforeTokenString)) {
         } else {
-            DeviewSchedApplication.LOGIN_STATE = true;
-
-            authString = AuthorizationHelper.getAuthorizationHeader("/user", "POST", currentTokenString, "");
-
-            volleyer(DeviewSchedApplication.deviewRequestQueue).post(DeviewSchedApplication.HOST_URL + "user")
-                    .addHeader("Authorization", authString)
-                    .withTargetClass(User.class)
-                    .withListener(new Response.Listener<User>() {
-                        @Override
-                        public void onResponse(User response) {
-                            DeviewSchedApplication.userData = response;
-
-                            Intent intent = new Intent(SplashLoginActivity.this, MainActivity.class);
-                            intent.putExtra("UserInfo", response);
-
-                            finish();
-                            startActivity(intent);
-                        }
-                    })
-                    .withErrorListener(new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                        }
-                    })
-                    .execute();
+            prefHelper.setAccessTokenValue(LoginPreferenceHelper.PREF_ACCESS_TOKEN, currentTokenString);
         }
+
+        String authString = AuthorizationHelper.getAuthorizationHeader("/user", "POST", currentTokenString, "");
+
+        volleyer(DeviewSchedApplication.deviewRequestQueue).post(DeviewSchedApplication.HOST_URL + "user")
+                .addHeader("Authorization", authString)
+                .withTargetClass(UserItem.class)
+                .withListener(new Response.Listener<UserItem>() {
+                    @Override
+                    public void onResponse(UserItem response) {
+                        Intent intent = new Intent(SplashLoginActivity.this, MainActivity.class);
+                        intent.putExtra("UserInfo", response);
+
+                        finish();
+                        startActivity(intent);
+                    }
+                })
+                .withErrorListener(new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                })
+                .execute();
     }
 
     /**
