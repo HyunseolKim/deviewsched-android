@@ -22,6 +22,7 @@ import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
 import com.gdgssu.android_deviewsched.model.DetailSessionInfo;
+import com.gdgssu.android_deviewsched.model.FavoriteSession;
 import com.gdgssu.android_deviewsched.model.Session;
 import com.gdgssu.android_deviewsched.model.Track;
 import com.gdgssu.android_deviewsched.ui.detailsession.DetailSessionActivity;
@@ -33,10 +34,10 @@ public class SchePagerFragment extends Fragment {
     private static final String TAG = "SchePagerFragment";
 
     private Track mTrackData;
-    private boolean sessionPickMode = false;
 
     private ListView listview;
     private SchePagerAdapter adapter;
+    private FavoriteSession sessionList;
 
     public static SchePagerFragment newInstance(Track track) {
         SchePagerFragment fragment = new SchePagerFragment();
@@ -80,13 +81,13 @@ public class SchePagerFragment extends Fragment {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (sessionPickMode) {
-                    adapter.addSelectedItemPosition(position);
-                    adapter.notifyDataSetChanged();
+                if (DeviewSchedApplication.sessionPickMode) {
+                    sessionList.addSession(mTrackData.sessions.get(position).id);
+//                    adapter.addSelectedItemPosition(position);
+//                    adapter.notifyDataSetChanged();
                 } else {
-
                     volleyer(DeviewSchedApplication.deviewRequestQueue)
-                            .get(DeviewSchedApplication.HOST_URL + "2015/"+mTrackData.sessions.get(position).id)
+                            .get(DeviewSchedApplication.HOST_URL + "2015/" + mTrackData.sessions.get(position).id)
                             .withTargetClass(DetailSessionInfo.class)
                             .withListener(new Response.Listener<DetailSessionInfo>() {
                                 @Override
@@ -125,10 +126,13 @@ public class SchePagerFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_all_sche_favorite:
 
-                if (sessionPickMode) {
-                    sessionPickMode = false;
+                if (DeviewSchedApplication.sessionPickMode) {
+                    DeviewSchedApplication.sessionPickMode = false;
+                    Toast.makeText(getActivity(), sessionList.toString(), Toast.LENGTH_SHORT).show();
+                    sessionList = null;
                 } else {
-                    sessionPickMode = true;
+                    sessionList = new FavoriteSession();
+                    DeviewSchedApplication.sessionPickMode = true;
                 }
 
                 return true;

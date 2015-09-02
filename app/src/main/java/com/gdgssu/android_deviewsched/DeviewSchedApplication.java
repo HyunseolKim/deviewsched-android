@@ -19,6 +19,8 @@ public class DeviewSchedApplication extends Application{
 
     private static final String TAG = "DeviewSchedApplication";
 
+    public static boolean sessionPickMode = false;
+
     public static RequestQueue deviewRequestQueue;
 
     @Override
