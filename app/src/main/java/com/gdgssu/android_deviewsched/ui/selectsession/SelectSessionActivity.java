@@ -1,9 +1,11 @@
 package com.gdgssu.android_deviewsched.ui.selectsession;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,10 +14,14 @@ import android.widget.Spinner;
 
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
+import com.gdgssu.android_deviewsched.model.FavoriteSession;
 
-public class SelectSessionActivity extends AppCompatActivity {
+public class SelectSessionActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+
+    private static final String TAG = SelectSessionActivity.class.getSimpleName();
 
     private SelectSessionListAdapter mAdapter;
+    private FavoriteSession selectedSessionList = new FavoriteSession();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +35,18 @@ public class SelectSessionActivity extends AppCompatActivity {
     private void initView() {
         initToolbar();
         initListView();
+        FloatingActionButton doneButton = (FloatingActionButton)findViewById(R.id.select_session_done);
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, selectedSessionList.toString());
+            }
+        });
     }
 
     private void initListView() {
         ListView listview = (ListView)findViewById(R.id.select_session_list);
+        listview.setOnItemClickListener(this);
         mAdapter = new SelectSessionListAdapter(AllScheItems.result.days.get(0), getApplicationContext());
         listview.setAdapter(mAdapter);
 
@@ -78,5 +92,18 @@ public class SelectSessionActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (!SelectSessionListAdapter.sessionItems.get(position).isSelected){
+            view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            SelectSessionListAdapter.sessionItems.get(position).isSelected=true;
+            selectedSessionList.selectSession(SelectSessionListAdapter.sessionItems.get(position).id);
+        }else{
+            view.setBackgroundColor(getResources().getColor(android.R.color.white));
+            SelectSessionListAdapter.sessionItems.get(position).isSelected=false;
+            selectedSessionList.selectSession(SelectSessionListAdapter.sessionItems.get(position).id);
+        }
     }
 }

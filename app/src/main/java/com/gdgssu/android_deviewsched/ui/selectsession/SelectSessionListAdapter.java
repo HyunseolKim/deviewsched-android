@@ -31,7 +31,7 @@ public class SelectSessionListAdapter extends BaseAdapter {
 
     private static final String TAG = SelectSessionListAdapter.class.getSimpleName();
 
-    private ArrayList<Session> sessionItems = new ArrayList<>();
+    public static ArrayList<Session> sessionItems = new ArrayList<>();
 
     private LayoutInflater mInflater;
     private Context mContext;
@@ -94,6 +94,12 @@ public class SelectSessionListAdapter extends BaseAdapter {
         }
 
         Session sessionItem = sessionItems.get(position);
+
+        if (sessionItems.get(position).isSelected){
+            convertView.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
+        }else{
+            convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.white));
+        }
 
         selectHolder.sessionTime.setText(String.format("%s~%s", transferTimestamp(sessionItem.starts_at), transferTimestamp(sessionItem.ends_at)));
         selectHolder.sessionTrack.setText(String.format("Track %s", sessionItem.track));

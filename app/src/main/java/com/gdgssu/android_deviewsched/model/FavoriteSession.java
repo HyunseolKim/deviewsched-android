@@ -10,17 +10,14 @@ public class FavoriteSession {
         this.favorList = new ArrayList<>();
     }
 
-    public void addSession(int sessionId){
+    public void selectSession(int sessionId){
         if (favorList.contains(sessionId)){
+            for (int i=0;i<favorList.size();i++){
+                if (sessionId==favorList.get(i))
+                    favorList.remove(i);
+            }
         }else{
             favorList.add(sessionId);
-        }
-    }
-
-    public void removeSession(int sessionId){
-        if (favorList.contains(sessionId)){
-            favorList.remove(sessionId);
-        }else{
         }
     }
 
