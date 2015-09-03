@@ -103,6 +103,7 @@ public class DetailSessionActivity extends AppCompatActivity {
                 .load(speakers.speakers.get(index).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.person_image_empty)
                 .into(speakerPicture);
 
         speakerName.setText(speakers.speakers.get(index).name);

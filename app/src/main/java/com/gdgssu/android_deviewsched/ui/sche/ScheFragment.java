@@ -122,11 +122,9 @@ public class ScheFragment extends DeviewFragment {
                 if (position==0){
                     mAdapter.setDayItem(AllScheItems.result.days.get(0));
                     mAdapter.notifyDataSetChanged();
-                    Log.d(TAG, "day1");
                 }else{
                     mAdapter.setDayItem(AllScheItems.result.days.get(1));
                     mAdapter.notifyDataSetChanged();
-                    Log.d(TAG, AllScheItems.result.days.get(1).tracks.get(0).sessions.get(0).title);
                 }
             }
 

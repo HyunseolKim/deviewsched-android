@@ -1,6 +1,7 @@
 package com.gdgssu.android_deviewsched.ui.selectsession;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,21 @@ import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.model.Day;
 import com.gdgssu.android_deviewsched.model.Session;
-import com.gdgssu.android_deviewsched.model.Track;
 import com.gdgssu.android_deviewsched.util.GlideCircleTransform;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class SelectSessionListAdapter extends BaseAdapter {
+
+    private final String[] SESSION_TIME =
+            {
+                    "10:00~10:50", "11:00~11:50", "12:00~12:50", "14:10 ~ 15:00", "15:10 ~ 16:00", "16:10 ~ 17:00"
+            };
+
+    private static final String TAG = SelectSessionListAdapter.class.getSimpleName();
 
     private ArrayList<Session> sessionItems = new ArrayList<>();
 
@@ -27,11 +37,22 @@ public class SelectSessionListAdapter extends BaseAdapter {
     private Context mContext;
 
     public SelectSessionListAdapter(Day day, Context context) {
-        for (int i = 0; i < day.tracks.size(); i++) {
-            this.sessionItems.addAll(day.tracks.get(i).sessions);
-        }
+        makeSelectSessionList(day);
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mContext = context;
+    }
+
+    public void makeSelectSessionList(Day day) {
+
+        try {
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 4; j++) {
+                    sessionItems.add(day.tracks.get(j).sessions.get(i));
+                }
+            }
+        } catch (IndexOutOfBoundsException e) {
+            Log.d(TAG, e.toString());
+        }
     }
 
     @Override
@@ -74,6 +95,9 @@ public class SelectSessionListAdapter extends BaseAdapter {
 
         Session sessionItem = sessionItems.get(position);
 
+        selectHolder.sessionTime.setText(String.format("%s~%s", transferTimestamp(sessionItem.starts_at), transferTimestamp(sessionItem.ends_at)));
+        selectHolder.sessionTrack.setText(String.format("Track %s", sessionItem.track));
+
         if (sessionItem.speakers.size() > 1) {
             setTwoSpeakerInfo(selectHolder, sessionItem);
         } else {
@@ -85,10 +109,17 @@ public class SelectSessionListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    private String transferTimestamp(long timestamp) {
+        Date timeStampDate = new Date(timestamp);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.KOREA);
+
+        return simpleDateFormat.format(timeStampDate);
+    }
+
     public void setDayItem(Day day) {
-        for (int i = 0; i < day.tracks.size(); i++) {
-            this.sessionItems.addAll(day.tracks.get(i).sessions);
-        }
+        sessionItems.clear();
+        makeSelectSessionList(day);
     }
 
     public void setOneSpeakerInfo(SelectSessionHolder sessionHolder, Session sessionItem) {
@@ -98,6 +129,7 @@ public class SelectSessionListAdapter extends BaseAdapter {
                 .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.person_image_empty)
                 .into(sessionHolder.speakerImg);
 
         sessionHolder.speakerName.setText(sessionItem.speakers.get(0).name);
@@ -110,12 +142,14 @@ public class SelectSessionListAdapter extends BaseAdapter {
                 .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.person_image_empty)
                 .into(sessionHolder.speakerImg);
 
         Glide.with(mContext)
                 .load(sessionItem.speakers.get(1).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.person_image_empty)
                 .into(sessionHolder.speakerImgSecond);
 
         sessionHolder.speakerName.setText(sessionItem.speakers.get(0).name + "/" + sessionItem.speakers.get(1).name);

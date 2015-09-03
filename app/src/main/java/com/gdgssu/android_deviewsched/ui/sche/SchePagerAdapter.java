@@ -96,6 +96,7 @@ public class SchePagerAdapter extends BaseAdapter {
                 .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.person_image_empty)
                 .into(sessionHolder.speakerImg);
 
         sessionHolder.speakerName.setText(sessionItem.speakers.get(0).name);
@@ -108,6 +109,7 @@ public class SchePagerAdapter extends BaseAdapter {
                 .load(sessionItem.speakers.get(0).picture)
                 .transform(new GlideCircleTransform(DeviewSchedApplication.GLOBAL_CONTEXT))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.person_image_empty)
                 .into(sessionHolder.speakerImg);
 
         Glide.with(mContext)

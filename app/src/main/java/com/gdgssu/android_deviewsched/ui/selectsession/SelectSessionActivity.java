@@ -39,7 +39,7 @@ public class SelectSessionActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.fragment_sche_toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.select_session_toolbar);
         setSupportActionBar(mToolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -57,7 +57,7 @@ public class SelectSessionActivity extends AppCompatActivity {
     }
 
     private void initToolbarSpinner() {
-        Spinner toolbarSpinner = (Spinner) findViewById(R.id.fragment_sche_spinner);
+        Spinner toolbarSpinner = (Spinner) findViewById(R.id.select_session_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                 R.array.days, R.layout.toolbar_spinner_item);
         adapter.setDropDownViewResource(R.layout.toolbar_spinner_item_dropdown);
