@@ -21,6 +21,10 @@ public class FavoriteSession {
         }
     }
 
+    public int getFavorListSize(){
+        return favorList.size();
+    }
+
     @Override
     public String toString() {
         return favorList.toString();

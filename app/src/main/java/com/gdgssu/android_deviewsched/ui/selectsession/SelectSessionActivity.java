@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
@@ -39,6 +40,9 @@ public class SelectSessionActivity extends AppCompatActivity implements AdapterV
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (selectedSessionList.getFavorListSize()==0){
+                    Toast.makeText(getApplicationContext(), "선택한 세션이 없습니다", Toast.LENGTH_SHORT).show();
+                }
                 Log.d(TAG, selectedSessionList.toString());
             }
         });
