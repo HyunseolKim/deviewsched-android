@@ -24,11 +24,9 @@ import com.facebook.appevents.AppEventsLogger;
 import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.example.RecyclerViewFragment;
-import com.gdgssu.android_deviewsched.model.User;
 import com.gdgssu.android_deviewsched.model.UserItem;
 import com.gdgssu.android_deviewsched.ui.location.LocationActivity;
 import com.gdgssu.android_deviewsched.ui.sche.ScheFragment;
-import com.gdgssu.android_deviewsched.ui.deviewstory.DeviewStoryFragment;
 import com.gdgssu.android_deviewsched.ui.findfriends.FindFriendsFragment;
 import com.gdgssu.android_deviewsched.ui.setting.SettingActivity;
 import com.gdgssu.android_deviewsched.util.GlideCircleTransform;
@@ -182,10 +180,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
                         showFindFriends(getResources().getText(R.string.find_friends));
                         break;
 
-                    case R.id.nav_deview_story:
-                        showDeviewStory(getResources().getText(R.string.deview_story));
-                        break;
-
                     case R.id.nav_location:
                         showLocation(getResources().getText(R.string.location));
                         break;
@@ -233,15 +227,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
         Fragment findFriendsFragment = FindFriendsFragment.newInstance(title);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_container, findFriendsFragment);
-        fragmentTransaction.addToBackStack(null).commit();
-
-    }
-
-    public void showDeviewStory(CharSequence title) {
-
-        Fragment deviewStoryFragment = DeviewStoryFragment.newInstance(title);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_container, deviewStoryFragment);
         fragmentTransaction.addToBackStack(null).commit();
 
     }
