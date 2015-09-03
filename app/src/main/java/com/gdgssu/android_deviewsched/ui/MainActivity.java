@@ -27,7 +27,6 @@ import com.gdgssu.android_deviewsched.example.RecyclerViewFragment;
 import com.gdgssu.android_deviewsched.model.UserItem;
 import com.gdgssu.android_deviewsched.ui.location.LocationActivity;
 import com.gdgssu.android_deviewsched.ui.sche.ScheFragment;
-import com.gdgssu.android_deviewsched.ui.findfriends.FindFriendsFragment;
 import com.gdgssu.android_deviewsched.ui.setting.SettingActivity;
 import com.gdgssu.android_deviewsched.util.GlideCircleTransform;
 import com.github.florent37.materialviewpager.MaterialViewPager;
@@ -129,8 +128,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
                                 ContextCompat.getDrawable(getApplicationContext(), R.drawable.backwall3));
                 }
 
-                //execute others actions if needed (ex : modify your header logo)
-
                 return null;
             }
         });
@@ -176,10 +173,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
                         showMySche(getResources().getText(R.string.my_schedule));
                         break;
 
-                    case R.id.nav_find_friends:
-                        showFindFriends(getResources().getText(R.string.find_friends));
-                        break;
-
                     case R.id.nav_location:
                         showLocation(getResources().getText(R.string.location));
                         break;
@@ -218,15 +211,6 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
         Fragment myScheFragment = ScheFragment.newInstance(title);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_container, myScheFragment);
-        fragmentTransaction.addToBackStack(null).commit();
-
-    }
-
-    public void showFindFriends(CharSequence title) {
-
-        Fragment findFriendsFragment = FindFriendsFragment.newInstance(title);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_container, findFriendsFragment);
         fragmentTransaction.addToBackStack(null).commit();
 
     }

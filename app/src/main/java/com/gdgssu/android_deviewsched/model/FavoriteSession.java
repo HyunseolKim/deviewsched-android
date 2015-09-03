@@ -29,4 +29,8 @@ public class FavoriteSession {
     public String toString() {
         return favorList.toString();
     }
+
+    public ArrayList<Integer> getFavorList() {
+        return favorList;
+    }
 }

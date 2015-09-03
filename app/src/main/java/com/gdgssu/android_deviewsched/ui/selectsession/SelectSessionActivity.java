@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.gdgssu.android_deviewsched.R;
+import com.gdgssu.android_deviewsched.helper.FavoritePreferenceHelper;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
 import com.gdgssu.android_deviewsched.model.FavoriteSession;
 
@@ -42,8 +43,13 @@ public class SelectSessionActivity extends AppCompatActivity implements AdapterV
             public void onClick(View v) {
                 if (selectedSessionList.getFavorListSize()==0){
                     Toast.makeText(getApplicationContext(), "선택한 세션이 없습니다", Toast.LENGTH_SHORT).show();
+                    return ;
                 }
-                Log.d(TAG, selectedSessionList.toString());
+
+                FavoritePreferenceHelper prefHelper = new FavoritePreferenceHelper(getApplicationContext());
+                prefHelper.setFavorSessionValue(FavoritePreferenceHelper.PREF_FAVOR_VALUE, selectedSessionList.getFavorList());
+                Toast.makeText(getApplicationContext(), "세션 리스트가 저장되었습니다.", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, prefHelper.getFavorSessionValue(FavoritePreferenceHelper.PREF_FAVOR_VALUE).toArray().toString());
             }
         });
     }

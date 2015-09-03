@@ -11,44 +11,41 @@ public class LoginPreferenceHelper {
     public final static String PREF_LOGIN_STATE = "PREF_LOGIN_STATE";
     public final static String PREF_ACCESS_TOKEN = "PREF_ACCESS_TOKEN";
 
-    static Context mContext;
+    private static Context mContext;
 
     public LoginPreferenceHelper(Context context) {
         this.mContext = context;
     }
 
-    public void setPrefLoginValue(String key, boolean value){
+    public void setPrefLoginValue(String key, boolean value) {
         SharedPreferences pref = mContext.getSharedPreferences(PREF_NAME, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putBoolean(key, value);
-        editor.commit();
+        editor.apply();
     }
 
-    public boolean getPrefLoginValue(String key, boolean defaultValue){
+    public boolean getPrefLoginValue(String key, boolean defaultValue) {
         SharedPreferences pref = mContext.getSharedPreferences(PREF_NAME, Activity.MODE_PRIVATE);
 
-        try{
-            return pref.getBoolean(key, defaultValue);
-        }catch(Exception e){
-            return defaultValue;
-        }
+        return pref.getBoolean(key, defaultValue);
+
     }
 
-    public void setAccessTokenValue(String key, String accessTokenString){
+    public void setAccessTokenValue(String key, String accessTokenString) {
         SharedPreferences pref = mContext.getSharedPreferences(PREF_NAME, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putString(key, accessTokenString);
-        editor.commit();
+        editor.apply();
     }
 
-    public String getAccessTokenValue(String key, String defaultValue){
+    public String getAccessTokenValue(String key, String defaultValue) {
         SharedPreferences pref = mContext.getSharedPreferences(PREF_NAME, Activity.MODE_PRIVATE);
 
-        try{
+        try {
             return pref.getString(key, defaultValue);
-        }catch(Exception e){
+        } catch (Exception e) {
             return defaultValue;
         }
     }

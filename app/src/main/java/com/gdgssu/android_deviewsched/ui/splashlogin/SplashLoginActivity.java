@@ -23,7 +23,6 @@ import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.helper.AuthorizationHelper;
 import com.gdgssu.android_deviewsched.helper.LoginPreferenceHelper;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
-import com.gdgssu.android_deviewsched.model.User;
 import com.gdgssu.android_deviewsched.model.UserItem;
 import com.gdgssu.android_deviewsched.ui.MainActivity;
 
@@ -36,9 +35,6 @@ import java.security.NoSuchAlgorithmException;
 public class SplashLoginActivity extends AppCompatActivity implements FacebookCallback<LoginResult> {
 
     private static final String TAG = "SplashLoginActivity";
-
-    private boolean loginComplete = false;
-    private boolean getScheComplete = false;
 
     private CallbackManager callbackManager;
     private LinearLayout frontInfo;
@@ -164,8 +160,7 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
 
         currentTokenString = AccessToken.getCurrentAccessToken().getToken();
         String beforeTokenString = prefHelper.getAccessTokenValue(LoginPreferenceHelper.PREF_ACCESS_TOKEN, "");
-        if (currentTokenString.equals(beforeTokenString)) {
-        } else {
+        if (!currentTokenString.equals(beforeTokenString)) {
             prefHelper.setAccessTokenValue(LoginPreferenceHelper.PREF_ACCESS_TOKEN, currentTokenString);
         }
 
