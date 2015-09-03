@@ -35,11 +35,7 @@ import at.markushi.ui.CircleButton;
 import static com.navercorp.volleyextensions.volleyer.Volleyer.volleyer;
 
 public class DetailSessionActivity extends AppCompatActivity {
-
-    private ArrayList<String> arrayList = new ArrayList<String>();
-
-    private ListView listView;
-
+    
     private DetailSessionInfo sessionInfo;
     private Speakers speakers;
 
@@ -55,10 +51,6 @@ public class DetailSessionActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         sessionInfo = (DetailSessionInfo)intent.getSerializableExtra("DetailSessionInfo");
-
-        arrayList.add("댓글1");
-        arrayList.add("댓글2");
-        arrayList.add("댓글3");
 
         initView();
 
@@ -117,45 +109,8 @@ public class DetailSessionActivity extends AppCompatActivity {
     private void initView() {
 
         initToolbar();
-        loadBackdropImage();
-        initListView();
 
-    }
-
-    private void initToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-
-        collapsingToolbar.setTitle("세션 안내");
-
-    }
-
-    private void loadBackdropImage() {
-        //임시 더미이미지
-        ImageView backdropImage = (ImageView) findViewById(R.id.backdrop);
-        Glide.with(getApplicationContext()).load("http://insanehong.kr/post/deview2013/@img/keynote.jpg")
-                .centerCrop().into(backdropImage);
-    }
-
-    private void initListView() {
-        listView = (ListView) findViewById(R.id.activity_detail_session_list);
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
-            listView.setNestedScrollingEnabled(true);
-        }
-
-        initHeaderView();
-        initFooterView();
-
-        listView.setAdapter(new DetailSessionAdapter(getApplicationContext(), arrayList));
-    }
-
-    private void initHeaderView() {
-        View headerView = getLayoutInflater().inflate(R.layout.item_detail_session_header, null, false);
-
-        ImageView backButton = (ImageView)headerView.findViewById(R.id.item_detail_session_header_back);
+        ImageView backButton = (ImageView)findViewById(R.id.activity_detail_session_header_back);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,30 +118,14 @@ public class DetailSessionActivity extends AppCompatActivity {
             }
         });
 
-        sessionTitle = (TextView)headerView.findViewById(R.id.item_detail_session_header_title);
-        sessionDesc = (TextView)headerView.findViewById(R.id.item_detail_session_header_sessioninfo);
-        speakerBasket = (LinearLayout)headerView.findViewById(R.id.item_detail_session_header_speaker_basket);
+        sessionTitle = (TextView)findViewById(R.id.activity_detail_session_header_title);
+        sessionDesc = (TextView)findViewById(R.id.activity_detail_session_header_sessioninfo);
+        speakerBasket = (LinearLayout)findViewById(R.id.activity_detail_session_header_speaker_basket);
 
-        listView.addHeaderView(headerView);
     }
 
-    private void initFooterView() {
-        View footerView = getLayoutInflater().inflate(R.layout.item_detail_session_footer, null, false);
-
-        final EditText replyEditText = (EditText)footerView.findViewById(R.id.item_detail_session_footer_edittext);
-
-        CircleButton replySendButton = (CircleButton)footerView.findViewById(R.id.item_detail_session_footer_sendreply);
-        replySendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /**
-                 * 이곳에 댓글을 달았을때의 로직을 작성해주면 됨.
-                 */
-                Toast.makeText(getApplicationContext(), replyEditText.getText(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        listView.addFooterView(footerView);
+    private void initToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 }
