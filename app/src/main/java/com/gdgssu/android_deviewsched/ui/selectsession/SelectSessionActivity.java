@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.gdgssu.android_deviewsched.R;
@@ -31,6 +32,9 @@ public class SelectSessionActivity extends AppCompatActivity {
     }
 
     private void initListView() {
+        ListView listview = (ListView)findViewById(R.id.select_session_list);
+        mAdapter = new SelectSessionListAdapter(AllScheItems.result.days.get(0), getApplicationContext());
+        listview.setAdapter(mAdapter);
 
     }
 

@@ -22,9 +22,9 @@ import java.util.ArrayList;
 
 public class SchePagerAdapter extends BaseAdapter {
 
-    private static final String[] SESSION_TIME =
+    private final String[] SESSION_TIME =
             {
-                    "09:20~09:40", "10:00~10:50", "11:00~11:50", "12:00~12:50", "12:50 ~ 14:10", "14:10 ~ 15:00", "15:10 ~ 16:00", "16:10 ~ 17:00", "17:15 ~ 18:30"
+                    "10:00~10:50", "11:00~11:50", "12:00~12:50", "14:10 ~ 15:00", "15:10 ~ 16:00", "16:10 ~ 17:00"
             };
 
     private LayoutInflater mInflater;
@@ -62,6 +62,7 @@ public class SchePagerAdapter extends BaseAdapter {
 
             sessionHolder = new SessionViewHolder();
 
+            sessionHolder.sessionTime = (TextView) convertView.findViewById(R.id.item_session_sche_sessioninfo_time);
             sessionHolder.speakerImg = (ImageView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_img);
             sessionHolder.speakerImgSecond = (ImageView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_img_second);
             sessionHolder.speakerName = (TextView) convertView.findViewById(R.id.item_session_sche_sessioninfo_speaker_name);
@@ -74,6 +75,8 @@ public class SchePagerAdapter extends BaseAdapter {
         }
 
         Session sessionItem = sessionItems.get(position);
+
+        sessionHolder.sessionTime.setText(SESSION_TIME[position]);
 
         if (sessionItem.speakers.size() > 1) {
             setTwoSpeakerInfo(sessionHolder, sessionItem);
@@ -123,5 +126,6 @@ public class SchePagerAdapter extends BaseAdapter {
         public ImageView speakerImgSecond;
         public TextView speakerName;
         public TextView sessionName;
+
     }
 }
