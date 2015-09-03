@@ -3,6 +3,7 @@ package com.gdgssu.android_deviewsched.ui.detailsession;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +27,7 @@ import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.model.DetailSessionInfo;
 import com.gdgssu.android_deviewsched.model.Speaker;
 import com.gdgssu.android_deviewsched.model.Speakers;
+import com.gdgssu.android_deviewsched.ui.MainActivity;
 import com.gdgssu.android_deviewsched.util.GlideCircleTransform;
 
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ import at.markushi.ui.CircleButton;
 import static com.navercorp.volleyextensions.volleyer.Volleyer.volleyer;
 
 public class DetailSessionActivity extends AppCompatActivity {
-    
+
     private DetailSessionInfo sessionInfo;
     private Speakers speakers;
 
@@ -110,14 +112,6 @@ public class DetailSessionActivity extends AppCompatActivity {
 
         initToolbar();
 
-        ImageView backButton = (ImageView)findViewById(R.id.activity_detail_session_header_back);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
         sessionTitle = (TextView)findViewById(R.id.activity_detail_session_header_title);
         sessionDesc = (TextView)findViewById(R.id.activity_detail_session_header_sessioninfo);
         speakerBasket = (LinearLayout)findViewById(R.id.activity_detail_session_header_speaker_basket);
@@ -125,7 +119,18 @@ public class DetailSessionActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("세션 안내");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
