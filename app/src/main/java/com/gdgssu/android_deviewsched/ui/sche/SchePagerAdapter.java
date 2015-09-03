@@ -29,7 +29,6 @@ public class SchePagerAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
     private ArrayList<Session> sessionItems;
-    private ArrayList<Integer> mSelectedItemPosition = new ArrayList<>();
     private Context mContext;
 
     public SchePagerAdapter(Track track, Context context) {
@@ -37,10 +36,6 @@ public class SchePagerAdapter extends BaseAdapter {
         this.sessionItems = track.sessions;
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mContext = context;
-    }
-
-    public void addSelectedItemPosition(int position){
-        mSelectedItemPosition.add(position);
     }
 
     @Override
@@ -87,12 +82,6 @@ public class SchePagerAdapter extends BaseAdapter {
         }
 
         sessionHolder.sessionName.setText(sessionItem.title);
-
-        for (int i=0;i<mSelectedItemPosition.size();i++){
-            if (position==mSelectedItemPosition.get(i)){
-                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
-            }
-        }
 
         return convertView;
     }

@@ -3,8 +3,8 @@
     package="com.gdgssu.android_deviewsched" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".DeviewSchedApplication"
@@ -21,12 +21,12 @@
         <activity
             android:name=".ui.setting.SettingActivity"
             android:label="@string/title_activity_setting"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.splashlogin.SplashLoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,8 +37,8 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
 
         <meta-data
@@ -48,13 +48,17 @@
         <activity
             android:name=".ui.detailsession.DetailSessionActivity"
             android:label="@string/title_activity_detail_session"
-            android:theme="@style/DeviewAppTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/DeviewAppTheme" >
         </activity>
-
-        <activity android:name=".ui.location.LocationActivity"
-            android:theme="@style/DeviewAppTheme"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".ui.location.LocationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DeviewAppTheme" >
+        </activity>
+        <activity
+            android:name=".ui.selectsession.SelectSessionActivity"
+            android:label="@string/title_activity_select_session" >
         </activity>
     </application>
 

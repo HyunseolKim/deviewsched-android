@@ -26,6 +26,7 @@ import com.gdgssu.android_deviewsched.model.FavoriteSession;
 import com.gdgssu.android_deviewsched.model.Session;
 import com.gdgssu.android_deviewsched.model.Track;
 import com.gdgssu.android_deviewsched.ui.detailsession.DetailSessionActivity;
+import com.gdgssu.android_deviewsched.ui.selectsession.SelectSessionActivity;
 
 import static com.navercorp.volleyextensions.volleyer.Volleyer.volleyer;
 
@@ -81,32 +82,28 @@ public class SchePagerFragment extends Fragment {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (DeviewSchedApplication.sessionPickMode) {
-                    sessionList.addSession(mTrackData.sessions.get(position).id);
-//                    adapter.addSelectedItemPosition(position);
-//                    adapter.notifyDataSetChanged();
-                } else {
-                    volleyer(DeviewSchedApplication.deviewRequestQueue)
-                            .get(DeviewSchedApplication.HOST_URL + "2015/" + mTrackData.sessions.get(position).id)
-                            .withTargetClass(DetailSessionInfo.class)
-                            .withListener(new Response.Listener<DetailSessionInfo>() {
-                                @Override
-                                public void onResponse(DetailSessionInfo item) {
 
-                                    Intent intent = new Intent(new Intent(getActivity(), DetailSessionActivity.class));
-                                    intent.putExtra("DetailSessionInfo", item);
-                                    getActivity().startActivity(intent);
+                volleyer(DeviewSchedApplication.deviewRequestQueue)
+                        .get(DeviewSchedApplication.HOST_URL + "2015/" + mTrackData.sessions.get(position).id)
+                        .withTargetClass(DetailSessionInfo.class)
+                        .withListener(new Response.Listener<DetailSessionInfo>() {
+                            @Override
+                            public void onResponse(DetailSessionInfo item) {
 
-                                }
-                            })
-                            .withErrorListener(new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.d(TAG, error.toString());
-                                }
-                            })
-                            .execute();
-                }
+                                Intent intent = new Intent(new Intent(getActivity(), DetailSessionActivity.class));
+                                intent.putExtra("DetailSessionInfo", item);
+                                getActivity().startActivity(intent);
+
+                            }
+                        })
+                        .withErrorListener(new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d(TAG, error.toString());
+                            }
+                        })
+                        .execute();
+
             }
         });
         listview.setAdapter(adapter);
@@ -126,14 +123,8 @@ public class SchePagerFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_all_sche_favorite:
 
-                if (DeviewSchedApplication.sessionPickMode) {
-                    DeviewSchedApplication.sessionPickMode = false;
-                    Toast.makeText(getActivity(), sessionList.toString(), Toast.LENGTH_SHORT).show();
-                    sessionList = null;
-                } else {
-                    sessionList = new FavoriteSession();
-                    DeviewSchedApplication.sessionPickMode = true;
-                }
+                Intent intent = new Intent(getActivity(), SelectSessionActivity.class);
+                startActivity(intent);
 
                 return true;
         }
