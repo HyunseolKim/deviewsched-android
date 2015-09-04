@@ -55,7 +55,7 @@ public class FavoritePreferenceHelper {
         List<Integer> favorSessionList;
         SharedPreferences pref = mContext.getSharedPreferences(PREF_NAME, Activity.MODE_PRIVATE);
 
-        if (pref.contains(PREF_NAME)){
+        if (pref.contains(PREF_FAVOR_VALUE)){
             String favorSessionJson = pref.getString(key, null);
             Gson gson = new Gson();
             Integer[] favorSessionArray = gson.fromJson(favorSessionJson, Integer[].class);

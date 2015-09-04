@@ -46,12 +46,16 @@ public class SelectSessionActivity extends AppCompatActivity implements AdapterV
                     return ;
                 }
 
-                FavoritePreferenceHelper prefHelper = new FavoritePreferenceHelper(getApplicationContext());
-                prefHelper.setFavorSessionValue(FavoritePreferenceHelper.PREF_FAVOR_VALUE, selectedSessionList.getFavorList());
-                Toast.makeText(getApplicationContext(), "세션 리스트가 저장되었습니다.", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, prefHelper.getFavorSessionValue(FavoritePreferenceHelper.PREF_FAVOR_VALUE).toArray().toString());
+                saveFavorSessionIDs();
             }
         });
+    }
+
+    public void saveFavorSessionIDs() {
+        FavoritePreferenceHelper prefHelper = new FavoritePreferenceHelper(getApplicationContext());
+        prefHelper.setFavorSessionValue(FavoritePreferenceHelper.PREF_FAVOR_VALUE, selectedSessionList.getFavorList());
+        Toast.makeText(getApplicationContext(), "세션 리스트가 저장되었습니다.", Toast.LENGTH_SHORT).show();
+        Log.d(TAG,         prefHelper.getFavorSessionValue(FavoritePreferenceHelper.PREF_FAVOR_VALUE).toString());
     }
 
     private void initListView() {
