@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        app:navigationIcon="@drawable/abc_ic_ab_back_mtrl_am_alpha"
-        app:theme="@style/DeviewAppTheme_ActionBar">
+        android:theme="@style/DeviewAppTheme_ActionBar"
+        app:navigationIcon="@drawable/abc_ic_ab_back_mtrl_am_alpha">
         
         <Spinner
             android:id="@+id/fragment_sche_spinner"

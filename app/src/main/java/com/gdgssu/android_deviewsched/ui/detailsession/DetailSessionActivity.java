@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -78,7 +80,7 @@ public class DetailSessionActivity extends AppCompatActivity {
     }
 
     private void setSpeakerInfo(int index) {
-        LinearLayout speakerInfoLayout = (LinearLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_speaker_info, null, false);
+        RelativeLayout speakerInfoLayout = (RelativeLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_speaker_info, null, false);
         ImageView speakerPicture = (ImageView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_speaker_img);
         TextView speakerName = (TextView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_name);
         TextView speakerOrg = (TextView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_company);
