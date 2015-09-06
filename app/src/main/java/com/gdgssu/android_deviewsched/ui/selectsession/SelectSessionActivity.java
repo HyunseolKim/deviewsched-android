@@ -5,7 +5,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +16,7 @@ import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.helper.FavoritePreferenceHelper;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
 import com.gdgssu.android_deviewsched.model.FavoriteSession;
+import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 
 public class SelectSessionActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -37,13 +37,13 @@ public class SelectSessionActivity extends AppCompatActivity implements AdapterV
     private void initView() {
         initToolbar();
         initListView();
-        FloatingActionButton doneButton = (FloatingActionButton)findViewById(R.id.select_session_done);
+        FloatingActionButton doneButton = (FloatingActionButton) findViewById(R.id.select_session_done);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedSessionList.getFavorListSize()==0){
+                if (selectedSessionList.getFavorListSize() == 0) {
                     Toast.makeText(getApplicationContext(), "선택한 세션이 없습니다", Toast.LENGTH_SHORT).show();
-                    return ;
+                    return;
                 }
 
                 saveFavorSessionIDs();
@@ -55,18 +55,17 @@ public class SelectSessionActivity extends AppCompatActivity implements AdapterV
         FavoritePreferenceHelper prefHelper = new FavoritePreferenceHelper(getApplicationContext());
         prefHelper.setFavorSessionValue(FavoritePreferenceHelper.PREF_FAVOR_VALUE, selectedSessionList.getFavorList());
         Toast.makeText(getApplicationContext(), "세션 리스트가 저장되었습니다.", Toast.LENGTH_SHORT).show();
-        Log.d(TAG,         prefHelper.getFavorSessionValue(FavoritePreferenceHelper.PREF_FAVOR_VALUE).toString());
     }
 
     private void initListView() {
-        ListView listview = (ListView)findViewById(R.id.select_session_list);
+        ListView listview = (ListView) findViewById(R.id.select_session_list);
         listview.setOnItemClickListener(this);
         mAdapter = new SelectSessionListAdapter(AllScheItems.result.days.get(0), getApplicationContext());
         listview.setAdapter(mAdapter);
-
     }
 
     private void initToolbar() {
+
         Toolbar mToolbar = (Toolbar) findViewById(R.id.select_session_toolbar);
         setSupportActionBar(mToolbar);
 
@@ -101,6 +100,7 @@ public class SelectSessionActivity extends AppCompatActivity implements AdapterV
                     mAdapter.notifyDataSetChanged();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -110,13 +110,13 @@ public class SelectSessionActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (!SelectSessionListAdapter.sessionItems.get(position).isSelected){
+        if (!SelectSessionListAdapter.sessionItems.get(position).isSelected) {
             view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            SelectSessionListAdapter.sessionItems.get(position).isSelected=true;
+            SelectSessionListAdapter.sessionItems.get(position).isSelected = true;
             selectedSessionList.selectSession(SelectSessionListAdapter.sessionItems.get(position).id);
-        }else{
+        } else {
             view.setBackgroundColor(getResources().getColor(android.R.color.white));
-            SelectSessionListAdapter.sessionItems.get(position).isSelected=false;
+            SelectSessionListAdapter.sessionItems.get(position).isSelected = false;
             selectedSessionList.selectSession(SelectSessionListAdapter.sessionItems.get(position).id);
         }
     }

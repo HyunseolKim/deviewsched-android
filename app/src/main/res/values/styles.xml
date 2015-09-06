@@ -1,14 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="DeviewAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
-    </style>
-
     <style name="Widget" />
 
     <style name="Widget.DeviewAppTheme" />
@@ -27,33 +18,12 @@
         <item name="android:focusableInTouchMode">false</item>
     </style>
 
-    <style name="DeviewAppBaseTheme_MaterialViewPager" parent="@style/Theme.AppCompat.Light">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Widget.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
     </style>
 
-    <style name="DeviewAppTheme_MaterialViewPager" parent="DeviewAppBaseTheme_MaterialViewPager">
-
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
-        <!-- Toolbar Theme / Apply white arrow -->
-        <item name="colorControlNormal">@android:color/white</item>
-
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
-
+    <style name="Widget.ActionBar.Transparent">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="background">@android:color/transparent</item>
     </style>
-
-    <style name="DeviewAppTheme_ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="selectableItemBackground">?android:selectableItemBackground</item>
-
-    </style>
-
 
 </resources>

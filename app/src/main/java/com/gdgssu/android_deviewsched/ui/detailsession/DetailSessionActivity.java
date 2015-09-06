@@ -1,9 +1,11 @@
 package com.gdgssu.android_deviewsched.ui.detailsession;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +31,7 @@ import com.gdgssu.android_deviewsched.model.Speaker;
 import com.gdgssu.android_deviewsched.model.Speakers;
 import com.gdgssu.android_deviewsched.ui.MainActivity;
 import com.gdgssu.android_deviewsched.util.GlideCircleTransform;
+import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 
 import java.util.ArrayList;
 
@@ -36,7 +39,7 @@ import at.markushi.ui.CircleButton;
 
 import static com.navercorp.volleyextensions.volleyer.Volleyer.volleyer;
 
-public class DetailSessionActivity extends AppCompatActivity {
+public class DetailSessionActivity extends ActionBarActivity {
 
     private DetailSessionInfo sessionInfo;
     private Speakers speakers;
@@ -49,15 +52,14 @@ public class DetailSessionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_session);
 
         Intent intent = getIntent();
-        sessionInfo = (DetailSessionInfo)intent.getSerializableExtra("DetailSessionInfo");
+        sessionInfo = (DetailSessionInfo) intent.getSerializableExtra("DetailSessionInfo");
 
         initView();
 
         volleyer(DeviewSchedApplication.deviewRequestQueue)
-                .get(DeviewSchedApplication.HOST_URL + "2015/"+sessionInfo.id+"/speakers")
+                .get(DeviewSchedApplication.HOST_URL + "2015/" + sessionInfo.id + "/speakers")
                 .withTargetClass(Speakers.class)
                 .withListener(new Response.Listener<Speakers>() {
                     @Override
@@ -73,25 +75,23 @@ public class DetailSessionActivity extends AppCompatActivity {
                     }
                 })
                 .execute();
-
-
     }
 
     public void setData() {
         sessionTitle.setText(sessionInfo.title);
         sessionDesc.setText(Html.fromHtml(sessionInfo.description));
 
-        for (int i=0;i<speakers.speakers.size();i++){
+        for (int i = 0; i < speakers.speakers.size(); i++) {
             setSpeakerInfo(i);
         }
     }
 
     private void setSpeakerInfo(int index) {
-        LinearLayout speakerInfoLayout = (LinearLayout)LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_speaker_info, null, false);
-        ImageView speakerPicture = (ImageView)speakerInfoLayout.findViewById(R.id.item_detail_session_header_speaker_img);
-        TextView speakerName = (TextView)speakerInfoLayout.findViewById(R.id.item_detail_session_header_name);
-        TextView speakerOrg = (TextView)speakerInfoLayout.findViewById(R.id.item_detail_session_header_company);
-        TextView speakerIntro = (TextView)speakerInfoLayout.findViewById(R.id.item_detail_session_header_speakerinfo);
+        LinearLayout speakerInfoLayout = (LinearLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_speaker_info, null, false);
+        ImageView speakerPicture = (ImageView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_speaker_img);
+        TextView speakerName = (TextView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_name);
+        TextView speakerOrg = (TextView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_company);
+        TextView speakerIntro = (TextView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_speakerinfo);
 
         Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
                 .load(speakers.speakers.get(index).picture)
@@ -112,25 +112,18 @@ public class DetailSessionActivity extends AppCompatActivity {
 
         initToolbar();
 
-        sessionTitle = (TextView)findViewById(R.id.activity_detail_session_header_title);
-        sessionDesc = (TextView)findViewById(R.id.activity_detail_session_header_sessioninfo);
-        speakerBasket = (LinearLayout)findViewById(R.id.activity_detail_session_header_speaker_basket);
+        sessionTitle = (TextView) findViewById(R.id.activity_detail_session_header_title);
+        sessionDesc = (TextView) findViewById(R.id.activity_detail_session_header_sessioninfo);
+        speakerBasket = (LinearLayout) findViewById(R.id.activity_detail_session_header_speaker_basket);
 
     }
 
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("세션 안내");
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        FadingActionBarHelper helper = new FadingActionBarHelper()
+                .actionBarBackground(new ColorDrawable(getColor(R.color.colorPrimary)))
+                .headerLayout(R.layout.layout_detail_session_header)
+                .contentLayout(R.layout.activity_detail_session);
+        setContentView(helper.createView(getApplicationContext()));
+        helper.initActionBar(this);
     }
 }
