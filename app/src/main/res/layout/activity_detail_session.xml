@@ -5,13 +5,14 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true">
 
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:id="@+id/toolbar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="?attr/actionBarSize"-->
-        <!--android:fitsSystemWindows="true"-->
-        <!--android:background="@color/colorPrimary"-->
-        <!--android:theme="@style/DeviewAppTheme_ActionBar" />-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:fitsSystemWindows="true"
+        android:background="@color/colorPrimary"
+        app:navigationIcon="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+        android:theme="@style/DeviewAppTheme_ActionBar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,13 +67,6 @@
 
                     </LinearLayout>
                 </RelativeLayout>
-
-                <ImageView
-                    android:id="@+id/activity_detail_session_header_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_share_black_24dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

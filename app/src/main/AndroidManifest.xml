@@ -49,7 +49,7 @@
             android:name=".ui.detailsession.DetailSessionActivity"
             android:label="@string/title_activity_detail_session"
             android:screenOrientation="portrait"
-            android:theme="@style/DeviewAppThemeDetailSessionView.TranslucentActionBar" >
+            android:theme="@style/DeviewAppTheme" >
         </activity>
         <activity
             android:name=".ui.location.LocationActivity"

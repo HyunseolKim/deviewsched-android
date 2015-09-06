@@ -1,24 +1,19 @@
 package com.gdgssu.android_deviewsched.ui.detailsession;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -27,19 +22,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.model.DetailSessionInfo;
-import com.gdgssu.android_deviewsched.model.Speaker;
 import com.gdgssu.android_deviewsched.model.Speakers;
 import com.gdgssu.android_deviewsched.ui.MainActivity;
+import com.gdgssu.android_deviewsched.ui.selectsession.SelectSessionActivity;
 import com.gdgssu.android_deviewsched.util.GlideCircleTransform;
-import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
-
-import java.util.ArrayList;
-
-import at.markushi.ui.CircleButton;
 
 import static com.navercorp.volleyextensions.volleyer.Volleyer.volleyer;
 
-public class DetailSessionActivity extends ActionBarActivity {
+public class DetailSessionActivity extends AppCompatActivity {
 
     private DetailSessionInfo sessionInfo;
     private Speakers speakers;
@@ -52,6 +42,7 @@ public class DetailSessionActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail_session);
 
         Intent intent = getIntent();
         sessionInfo = (DetailSessionInfo) intent.getSerializableExtra("DetailSessionInfo");
@@ -119,11 +110,39 @@ public class DetailSessionActivity extends ActionBarActivity {
     }
 
     private void initToolbar() {
-        FadingActionBarHelper helper = new FadingActionBarHelper()
-                .actionBarBackground(new ColorDrawable(getColor(R.color.colorPrimary)))
-                .headerLayout(R.layout.layout_detail_session_header)
-                .contentLayout(R.layout.activity_detail_session);
-        setContentView(helper.createView(getApplicationContext()));
-        helper.initActionBar(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("세션 안내");
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail_session, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_detail_session_share:
+
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
