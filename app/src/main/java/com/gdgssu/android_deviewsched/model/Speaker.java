@@ -12,5 +12,6 @@ public class Speaker implements Serializable {
     public String organization;
     public String picture;
     public String introduction;
+    public String email;
 
 }

@@ -1,15 +1,14 @@
 package com.gdgssu.android_deviewsched.ui.detailsession;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,8 +24,6 @@ import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.model.DetailSessionInfo;
 import com.gdgssu.android_deviewsched.model.Speakers;
-import com.gdgssu.android_deviewsched.ui.MainActivity;
-import com.gdgssu.android_deviewsched.ui.selectsession.SelectSessionActivity;
 import com.gdgssu.android_deviewsched.util.GlideCircleTransform;
 
 import static com.navercorp.volleyextensions.volleyer.Volleyer.volleyer;
@@ -79,11 +76,12 @@ public class DetailSessionActivity extends AppCompatActivity {
         }
     }
 
-    private void setSpeakerInfo(int index) {
+    private void setSpeakerInfo(final int index) {
         RelativeLayout speakerInfoLayout = (RelativeLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_speaker_info, null, false);
         ImageView speakerPicture = (ImageView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_speaker_img);
         TextView speakerName = (TextView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_name);
         TextView speakerOrg = (TextView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_company);
+        ImageView speakerUrl = (ImageView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_url);
         TextView speakerIntro = (TextView) speakerInfoLayout.findViewById(R.id.item_detail_session_header_speakerinfo);
 
         Glide.with(DeviewSchedApplication.GLOBAL_CONTEXT)
@@ -95,6 +93,14 @@ public class DetailSessionActivity extends AppCompatActivity {
 
         speakerName.setText(speakers.speakers.get(index).name);
         speakerOrg.setText(speakers.speakers.get(index).organization);
+        speakerUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Uri uri = Uri.parse(speakers.speakers.get(index).email);
+//                Intent intent = new Intent(Intent.ACTION_SEND, uri);
+//                startActivity(intent);
+            }
+        });
         speakerIntro.setText(Html.fromHtml(speakers.speakers.get(index).introduction));
 
         speakerBasket.addView(speakerInfoLayout);
