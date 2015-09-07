@@ -166,11 +166,11 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
                         break;
 
                     case R.id.nav_all_schedule:
-                        showAllSche(getResources().getText(R.string.all_schedule));
+                        showSche(getResources().getText(R.string.all_schedule));
                         break;
 
                     case R.id.nav_my_schedule:
-                        showMySche(getResources().getText(R.string.my_schedule));
+                        showSche(getResources().getText(R.string.my_schedule));
                         break;
 
                     case R.id.nav_location:
@@ -198,21 +198,12 @@ public class MainActivity extends AppCompatActivity implements DeviewFragment.On
         fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
-    public void showAllSche(CharSequence title) {
+    public void showSche(CharSequence title) {
 
         Fragment allScheFragment = ScheFragment.newInstance(title);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_container, allScheFragment);
         fragmentTransaction.addToBackStack(null).commit();
-    }
-
-    public void showMySche(CharSequence title) {
-
-        Fragment myScheFragment = ScheFragment.newInstance(title);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_container, myScheFragment);
-        fragmentTransaction.addToBackStack(null).commit();
-
     }
 
     public void showLocation(CharSequence title) {

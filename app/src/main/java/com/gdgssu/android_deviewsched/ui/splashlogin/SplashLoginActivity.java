@@ -44,22 +44,6 @@ public class SplashLoginActivity extends AppCompatActivity implements FacebookCa
 
     private LoginPreferenceHelper prefHelper;
 
-    /**
-     * 애플리케이션에 유저 로그인이 되어있는 상태와 되어있지 않은 상태로 액티비티에서 하는 일이 달라짐
-     * DeviewSchedApplication.LOGIN_STATE로 데뷰 앱에 로그인이 되어있는 상태를 받아왔을 떄,
-     * <p/>
-     * 로그인이 안되어 있는 상태(초기 사용자) :
-     * 애플리케이션이 시작되고 이 화면이 뜨고나서 전체 시간표를 받아옴.
-     * 전체시간표를 모두 받아오면 GDG SSU로고가 사라지고, 페이스북으로 로그인 버튼이 나온다.
-     * 페이스북으로 로그인 버튼을 누르고 onSuccess가 떨어지면 서버에 유저를 등록시키기 위한 AccessToken을 전달하고
-     * 유저의 사진과 실명을 가져온다.
-     * 메인화면에 보여줄 데이터도 가져온다.
-     * <p/>
-     * 로그인이 되어있는 상태 :
-     * 전체 시간표 / 메인화면에 뿌려질 데이터 / 유저의 사진과 실명 데이터를 가져옴
-     * 애플리케이션이 시작하고 3초뒤에 페이스북으로 로그인 버튼이 뜨지 않는다.
-     */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

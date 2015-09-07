@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class FavoritePreferenceHelper {
 
         editor.putBoolean(key, value);
         editor.apply();
+
+        DeviewSchedApplication.FAVOR_SESSION_STATE = value;
     }
 
     public boolean getFavorSessionState(String key){
@@ -38,6 +41,7 @@ public class FavoritePreferenceHelper {
     }
 
     public void setFavorSessionValue(String key, ArrayList<Integer> favorSessionList){
+
         SharedPreferences pref = mContext.getSharedPreferences(PREF_NAME, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
 

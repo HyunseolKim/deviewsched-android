@@ -1,8 +1,8 @@
 package com.gdgssu.android_deviewsched.ui.sche;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,13 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import com.gdgssu.android_deviewsched.DeviewSchedApplication;
 import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
 import com.gdgssu.android_deviewsched.ui.DeviewFragment;
 import com.gdgssu.android_deviewsched.ui.MainActivity;
+import com.gdgssu.android_deviewsched.ui.selectsession.SelectSessionActivity;
 
 public class ScheFragment extends DeviewFragment {
 
@@ -30,6 +32,7 @@ public class ScheFragment extends DeviewFragment {
 
     private ViewPager mPager;
     private CharSequence title;
+    private boolean isMySession = false;
 
     private String TAG = "ScheFragment";
 
@@ -53,7 +56,19 @@ public class ScheFragment extends DeviewFragment {
 
         if (getArguments() != null) {
             this.title = getArguments().getString(KEY_TITLE);
+            if (this.title == getActivity().getText(R.string.all_schedule)) {
+                isMySession = false;
+            } else {
+                isMySession = true;
+            }
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        Log.d(TAG, "onStop()");
     }
 
     @Override
@@ -63,9 +78,17 @@ public class ScheFragment extends DeviewFragment {
         View rootView = inflater.inflate(R.layout.fragment_sche, container, false);
 
         initToolbar(rootView);
+        setMySessionView(rootView);
         initFragmentPager(rootView);
 
         return rootView;
+    }
+
+    private void setMySessionView(View rootView) {
+        if ((!isMySession) || DeviewSchedApplication.FAVOR_SESSION_STATE) {
+            RelativeLayout emptyLayout = (RelativeLayout) rootView.findViewById(R.id.fragment_sche_empty_container);
+            emptyLayout.setVisibility(View.GONE);
+        }
     }
 
     private void initFragmentPager(View rootView) {
@@ -79,6 +102,7 @@ public class ScheFragment extends DeviewFragment {
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
 
             @Override
@@ -88,6 +112,7 @@ public class ScheFragment extends DeviewFragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
@@ -119,12 +144,14 @@ public class ScheFragment extends DeviewFragment {
         toolbarSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==0){
-                    mAdapter.setDayItem(AllScheItems.result.days.get(0));
-                    mAdapter.notifyDataSetChanged();
-                }else{
-                    mAdapter.setDayItem(AllScheItems.result.days.get(1));
-                    mAdapter.notifyDataSetChanged();
+                if (mAdapter != null) {
+                    if (position == 0) {
+                        mAdapter.setDayItem(AllScheItems.result.days.get(0));
+                        mAdapter.notifyDataSetChanged();
+                    } else {
+                        mAdapter.setDayItem(AllScheItems.result.days.get(1));
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 

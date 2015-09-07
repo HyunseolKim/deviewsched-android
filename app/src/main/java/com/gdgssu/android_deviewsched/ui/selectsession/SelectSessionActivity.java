@@ -16,7 +16,6 @@ import com.gdgssu.android_deviewsched.R;
 import com.gdgssu.android_deviewsched.helper.FavoritePreferenceHelper;
 import com.gdgssu.android_deviewsched.model.AllScheItems;
 import com.gdgssu.android_deviewsched.model.FavoriteSession;
-import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 
 public class SelectSessionActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -43,6 +42,8 @@ public class SelectSessionActivity extends AppCompatActivity implements AdapterV
             public void onClick(View v) {
                 if (selectedSessionList.getFavorListSize() == 0) {
                     Toast.makeText(getApplicationContext(), "선택한 세션이 없습니다", Toast.LENGTH_SHORT).show();
+                    FavoritePreferenceHelper prefHelper = new FavoritePreferenceHelper(getApplicationContext());
+                    prefHelper.setFavorSessionState(FavoritePreferenceHelper.PREF_FAVOR_STATE, false);
                     return;
                 }
 
